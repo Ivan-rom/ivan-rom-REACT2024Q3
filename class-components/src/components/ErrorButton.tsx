@@ -8,6 +8,7 @@ interface ErrorButtonState {
 
 class ErrorButton extends React.Component<ErrorButtonProps, ErrorButtonState> {
   state = { hasError: false };
+
   render() {
     if (this.state.hasError) throw new Error('Synthetic error');
     return (

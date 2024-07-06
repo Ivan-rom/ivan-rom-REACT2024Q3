@@ -1,27 +1,41 @@
 import React from 'react';
+import { Person } from '../helpers/interfaces';
+
+const URL = 'https://swapi.dev/api/people/';
 
 interface SearchProps {
-  searchTerm: string;
-  updateSearch: (text: string) => void;
+  updateElements: (elements: Person[]) => void;
 }
 
 interface SearchState {
-  text: string;
+  searchTerm: string;
 }
 
 class Search extends React.Component<SearchProps, SearchState> {
-  state = {
-    text: this.props.searchTerm,
-  };
-
-  componentDidMount() {
+  constructor(props: SearchProps) {
+    super(props);
     const searchTerm = localStorage.getItem('search-term');
-    if (searchTerm) this.setState({ text: searchTerm });
+    this.state = {
+      searchTerm: searchTerm || '',
+    };
+
+    this.makeRequest(searchTerm || '');
+  }
+
+  makeRequest(search = '') {
+    fetch(search ? `${URL}/?search=${search}` : URL)
+      .then((res) => res.json())
+      .then((res) => this.props.updateElements(res.results));
   }
 
   submitHandler(e: React.FormEvent) {
     e.preventDefault();
-    this.props.updateSearch(this.state.text.trim());
+
+    const search = this.state.searchTerm.trim();
+
+    localStorage.setItem('search-term', search);
+
+    this.makeRequest(search);
   }
 
   render() {
@@ -31,8 +45,8 @@ class Search extends React.Component<SearchProps, SearchState> {
           type="text"
           name="search"
           placeholder="Search..."
-          value={this.state.text}
-          onChange={({ target }) => this.setState({ text: target.value })}
+          value={this.state.searchTerm}
+          onChange={({ target }) => this.setState({ searchTerm: target.value })}
         />
         <button>Search</button>
       </form>

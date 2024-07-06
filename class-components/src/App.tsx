@@ -6,58 +6,21 @@ import Loader from './components/Loader';
 import ErrorButton from './components/ErrorButton';
 import ErrorBoundary from './components/ErrorBoundary';
 
-const URL = 'https://swapi.dev/api/people/';
-
 interface AppProps {}
 
 interface AppState {
   elements: Person[];
-  searchTerm: string;
   isLoading: boolean;
 }
 
 class App extends React.Component<AppProps, AppState> {
   state: AppState = {
     elements: [],
-    searchTerm: '',
-    isLoading: false,
+    isLoading: true,
   };
 
-  updateSearchTerm(searchTerm: string) {
-    this.setState((prevState) => {
-      return { ...prevState, searchTerm };
-    });
-    localStorage.setItem('search-term', searchTerm);
-
-    this.getPeople(searchTerm);
-  }
-
-  getPeople(search: string = '') {
-    this.setState((prevState) => {
-      return {
-        ...prevState,
-        isLoading: true,
-      };
-    });
-
-    fetch(search ? `${URL}/?search=${search}` : URL)
-      .then((res) => res.json())
-      .then((res) =>
-        this.setState((prevState) => {
-          return {
-            ...prevState,
-            elements: res.results,
-            isLoading: false,
-          };
-        }),
-      );
-  }
-
-  componentDidMount(): void {
-    const searchTerm = localStorage.getItem('search-term');
-    if (searchTerm) this.setState({ searchTerm, elements: [] });
-
-    this.getPeople(searchTerm || '');
+  updateElements(elements: Person[]) {
+    this.setState({ elements, isLoading: false });
   }
 
   render() {
@@ -65,10 +28,7 @@ class App extends React.Component<AppProps, AppState> {
       <>
         <ErrorBoundary>
           <ErrorButton />
-          <Search
-            searchTerm={this.state.searchTerm}
-            updateSearch={this.updateSearchTerm.bind(this)}
-          />
+          <Search updateElements={this.updateElements.bind(this)} />
           {this.state.isLoading ? (
             <Loader />
           ) : (
