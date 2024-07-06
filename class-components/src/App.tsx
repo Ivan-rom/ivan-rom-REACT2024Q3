@@ -3,6 +3,8 @@ import Search from './components/Search';
 import { Person } from './helpers/interfaces';
 import List from './components/List';
 import Loader from './components/Loader';
+import ErrorButton from './components/ErrorButton';
+import ErrorBoundary from './components/ErrorBoundary';
 
 const URL = 'https://swapi.dev/api/people/';
 
@@ -61,16 +63,18 @@ class App extends React.Component<AppProps, AppState> {
   render() {
     return (
       <>
-        <Search
-          searchTerm={this.state.searchTerm}
-          updateSearch={this.updateSearchTerm.bind(this)}
-        />
-        <List elements={this.state.elements} />
-        {this.state.isLoading ? (
-          <Loader />
-        ) : (
-          <List elements={this.state.elements} />
-        )}
+        <ErrorBoundary>
+          <ErrorButton />
+          <Search
+            searchTerm={this.state.searchTerm}
+            updateSearch={this.updateSearchTerm.bind(this)}
+          />
+          {this.state.isLoading ? (
+            <Loader />
+          ) : (
+            <List elements={this.state.elements} />
+          )}
+        </ErrorBoundary>
       </>
     );
   }
