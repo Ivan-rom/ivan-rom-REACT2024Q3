@@ -2,6 +2,7 @@ import React from 'react';
 import Search from './components/Search';
 import { Person } from './helpers/interfaces';
 import List from './components/List';
+import Loader from './components/Loader';
 
 const URL = 'https://swapi.dev/api/people/';
 
@@ -10,12 +11,14 @@ interface AppProps {}
 interface AppState {
   elements: Person[];
   searchTerm: string;
+  isLoading: boolean;
 }
 
 class App extends React.Component<AppProps, AppState> {
   state: AppState = {
     elements: [],
     searchTerm: '',
+    isLoading: false,
   };
 
   updateSearchTerm(searchTerm: string) {
@@ -28,6 +31,13 @@ class App extends React.Component<AppProps, AppState> {
   }
 
   getPeople(search: string = '') {
+    this.setState((prevState) => {
+      return {
+        ...prevState,
+        isLoading: true,
+      };
+    });
+
     fetch(search ? `${URL}/?search=${search}` : URL)
       .then((res) => res.json())
       .then((res) =>
@@ -35,6 +45,7 @@ class App extends React.Component<AppProps, AppState> {
           return {
             ...prevState,
             elements: res.results,
+            isLoading: false,
           };
         }),
       );
@@ -55,6 +66,11 @@ class App extends React.Component<AppProps, AppState> {
           updateSearch={this.updateSearchTerm.bind(this)}
         />
         <List elements={this.state.elements} />
+        {this.state.isLoading ? (
+          <Loader />
+        ) : (
+          <List elements={this.state.elements} />
+        )}
       </>
     );
   }
