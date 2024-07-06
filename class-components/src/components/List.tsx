@@ -6,9 +6,7 @@ interface ListProps {
   elements: Person[];
 }
 
-interface ListState {}
-
-class List extends React.Component<ListProps, ListState> {
+class List extends React.Component<ListProps> {
   render() {
     return (
       <ul>

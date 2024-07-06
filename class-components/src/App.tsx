@@ -9,15 +9,26 @@ interface AppProps {}
 
 interface AppState {
   elements: Person[];
+  searchTerm: string;
 }
 
 class App extends React.Component<AppProps, AppState> {
   state: AppState = {
     elements: [],
+    searchTerm: '',
   };
 
-  getPeople() {
-    fetch(URL)
+  updateSearchTerm(searchTerm: string) {
+    this.setState((prevState) => {
+      return { ...prevState, searchTerm };
+    });
+    localStorage.setItem('search-term', searchTerm);
+
+    this.getPeople(searchTerm);
+  }
+
+  getPeople(search: string = '') {
+    fetch(search ? `${URL}/?search=${search}` : URL)
       .then((res) => res.json())
       .then((res) =>
         this.setState((prevState) => {
@@ -30,13 +41,19 @@ class App extends React.Component<AppProps, AppState> {
   }
 
   componentDidMount(): void {
-    this.getPeople();
+    const searchTerm = localStorage.getItem('search-term');
+    if (searchTerm) this.setState({ searchTerm, elements: [] });
+
+    this.getPeople(searchTerm || '');
   }
 
   render() {
     return (
       <>
-        <Search />
+        <Search
+          searchTerm={this.state.searchTerm}
+          updateSearch={this.updateSearchTerm.bind(this)}
+        />
         <List elements={this.state.elements} />
       </>
     );

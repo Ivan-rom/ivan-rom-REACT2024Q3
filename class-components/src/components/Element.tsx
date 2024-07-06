@@ -5,9 +5,7 @@ interface ElementProps {
   data: Person;
 }
 
-interface ElementState {}
-
-class Element extends React.Component<ElementProps, ElementState> {
+class Element extends React.Component<ElementProps> {
   render() {
     return (
       <li>
