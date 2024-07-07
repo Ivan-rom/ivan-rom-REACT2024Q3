@@ -1,0 +1,3 @@
+cd class-components
+
+npx lint-staged
