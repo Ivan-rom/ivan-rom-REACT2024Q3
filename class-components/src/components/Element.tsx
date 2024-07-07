@@ -7,12 +7,13 @@ interface ElementProps {
 
 class Element extends React.Component<ElementProps> {
   render() {
+    const { name, mass, height, gender } = this.props.data;
     return (
       <li>
-        <div>Name: {this.props.data.name}</div>
-        <div>Weight: {this.props.data.mass}kg</div>
-        <div>Height: {this.props.data.height}</div>
-        <div>Gender: {this.props.data.gender}</div>
+        <div>Name: {name}</div>
+        <div>Weight: {mass}kg</div>
+        <div>Height: {height}</div>
+        <div>Gender: {gender}</div>
       </li>
     );
   }

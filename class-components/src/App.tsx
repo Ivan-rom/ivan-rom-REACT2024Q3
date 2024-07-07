@@ -19,16 +19,15 @@ class App extends React.Component<AppProps, AppState> {
     isLoading: true,
   };
 
-  updateElements(elements: Person[]) {
-    this.setState({ elements, isLoading: false });
-  }
-
   render() {
     return (
       <>
         <ErrorBoundary>
           <ErrorButton />
-          <Search updateElements={this.updateElements.bind(this)} />
+          <Search
+            updateLoader={(isLoading) => this.setState({ isLoading })}
+            updateElements={(elements: Person[]) => this.setState({ elements })}
+          />
           {this.state.isLoading ? (
             <Loader />
           ) : (

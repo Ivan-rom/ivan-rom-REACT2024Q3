@@ -5,6 +5,7 @@ const URL = 'https://swapi.dev/api/people/';
 
 interface SearchProps {
   updateElements: (elements: Person[]) => void;
+  updateLoader: (isLoading: boolean) => void;
 }
 
 interface SearchState {
@@ -18,23 +19,26 @@ class Search extends React.Component<SearchProps, SearchState> {
     this.state = {
       searchTerm: searchTerm || '',
     };
+  }
 
-    this.makeRequest(searchTerm || '');
+  componentDidMount(): void {
+    this.makeRequest(this.state.searchTerm);
   }
 
   makeRequest(search = '') {
+    this.props.updateLoader(true);
     fetch(search ? `${URL}/?search=${search}` : URL)
       .then((res) => res.json())
-      .then((res) => this.props.updateElements(res.results));
+      .then((res) => {
+        this.props.updateElements(res.results);
+        this.props.updateLoader(false);
+      });
   }
 
   submitHandler(e: React.FormEvent) {
     e.preventDefault();
-
     const search = this.state.searchTerm.trim();
-
     localStorage.setItem('search-term', search);
-
     this.makeRequest(search);
   }
 
