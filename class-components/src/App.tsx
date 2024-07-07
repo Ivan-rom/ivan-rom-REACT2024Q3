@@ -25,7 +25,7 @@ class App extends React.Component<AppProps, AppState> {
         <ErrorBoundary>
           <ErrorButton />
           <Search
-            updateLoader={(isLoading) => this.setState({ isLoading })}
+            updateLoader={(isLoading: boolean) => this.setState({ isLoading })}
             updateElements={(elements: Person[]) => this.setState({ elements })}
           />
           {this.state.isLoading ? (

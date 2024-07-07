@@ -29,14 +29,7 @@ class ErrorBoundary extends React.Component<
         </>
       );
 
-    return (
-      <>
-        {this.state.errorMessage && (
-          <div>Error occurred with message: {this.state.errorMessage}</div>
-        )}
-        {this.props.children}
-      </>
-    );
+    return this.props.children;
   }
 }
 
