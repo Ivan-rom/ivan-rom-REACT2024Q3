@@ -19,6 +19,16 @@ class ErrorBoundary extends React.Component<
   }
 
   render() {
+    if (this.state.errorMessage)
+      return (
+        <>
+          <div>Something went wrong :(</div>
+          <button onClick={() => this.setState({ errorMessage: '' })}>
+            Clear error
+          </button>
+        </>
+      );
+
     return (
       <>
         {this.state.errorMessage && (
