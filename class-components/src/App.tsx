@@ -1,4 +1,4 @@
-import React from 'react';
+import { FunctionComponent, useState } from 'react';
 import Search from './components/Search';
 import { Person } from './helpers/interfaces';
 import List from './components/List';
@@ -6,37 +6,22 @@ import Loader from './components/Loader';
 import ErrorButton from './components/ErrorButton';
 import ErrorBoundary from './components/ErrorBoundary';
 
-interface AppProps {}
+const App: FunctionComponent = () => {
+  const [elements, setElements] = useState<Person[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
 
-interface AppState {
-  elements: Person[];
-  isLoading: boolean;
-}
-
-class App extends React.Component<AppProps, AppState> {
-  state: AppState = {
-    elements: [],
-    isLoading: true,
-  };
-
-  render() {
-    return (
-      <>
-        <ErrorBoundary>
-          <ErrorButton />
-          <Search
-            updateLoader={(isLoading: boolean) => this.setState({ isLoading })}
-            updateElements={(elements: Person[]) => this.setState({ elements })}
-          />
-          {this.state.isLoading ? (
-            <Loader />
-          ) : (
-            <List elements={this.state.elements} />
-          )}
-        </ErrorBoundary>
-      </>
-    );
-  }
-}
+  return (
+    <>
+      <ErrorBoundary>
+        <ErrorButton />
+        <Search
+          updateElements={(elements: Person[]) => setElements(elements)}
+          updateLoader={(isLoading: boolean) => setIsLoading(isLoading)}
+        />
+        {isLoading ? <Loader /> : <List elements={elements} />}
+      </ErrorBoundary>
+    </>
+  );
+};
 
 export default App;

@@ -1,9 +1,7 @@
-import React from 'react';
+import { FunctionComponent } from 'react';
 
-class Loader extends React.PureComponent {
-  render() {
-    return <div>Loading...</div>;
-  }
-}
+const Loader: FunctionComponent = () => {
+  return <div>Loading...</div>;
+};
 
 export default Loader;

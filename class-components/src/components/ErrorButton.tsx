@@ -1,22 +1,11 @@
-import React from 'react';
+import { FunctionComponent, useState } from 'react';
 
-interface ErrorButtonProps {}
+const ErrorButton: FunctionComponent = () => {
+  const [hasError, setHasError] = useState(false);
 
-interface ErrorButtonState {
-  hasError: boolean;
-}
+  if (hasError) throw new Error('Synthetic error');
 
-class ErrorButton extends React.Component<ErrorButtonProps, ErrorButtonState> {
-  state = { hasError: false };
-
-  render() {
-    if (this.state.hasError) throw new Error('Synthetic error');
-    return (
-      <button onClick={() => this.setState({ hasError: true })}>
-        Create error
-      </button>
-    );
-  }
-}
+  return <button onClick={() => setHasError(true)}>Create error</button>;
+};
 
 export default ErrorButton;
