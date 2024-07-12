@@ -1,25 +1,18 @@
-import { FunctionComponent, useState } from 'react';
-import Search from './components/Search';
-import { Person } from './helpers/interfaces';
-import List from './components/List';
-import Loader from './components/Loader';
-import ErrorButton from './components/ErrorButton';
-import ErrorBoundary from './components/ErrorBoundary';
+import { FunctionComponent } from 'react';
+import { BrowserRouter, Route, Routes } from 'react-router-dom';
+import SearchView from './views/SearchView';
+import ElementView from './views/ElementView';
 
 const App: FunctionComponent = () => {
-  const [elements, setElements] = useState<Person[]>([]);
-  const [isLoading, setIsLoading] = useState(true);
-
   return (
     <>
-      <ErrorBoundary>
-        <ErrorButton />
-        <Search
-          updateElements={(elements: Person[]) => setElements(elements)}
-          updateLoader={(isLoading: boolean) => setIsLoading(isLoading)}
-        />
-        {isLoading ? <Loader /> : <List elements={elements} />}
-      </ErrorBoundary>
+      <BrowserRouter>
+        <Routes>
+          <Route path="/search/:page?" element={<SearchView />}>
+            <Route path="details/:elementId" element={<ElementView />} />
+          </Route>
+        </Routes>
+      </BrowserRouter>
     </>
   );
 };

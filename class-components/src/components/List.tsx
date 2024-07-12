@@ -9,9 +9,11 @@ interface ListProps {
 const List: FunctionComponent<ListProps> = ({ elements }) => {
   return (
     <ul>
-      {elements.map((element) => (
-        <Element data={element} key={element.url} />
-      ))}
+      {elements ? (
+        elements.map((element) => <Element data={element} key={element.url} />)
+      ) : (
+        <h2>Nothing found</h2>
+      )}
     </ul>
   );
 };

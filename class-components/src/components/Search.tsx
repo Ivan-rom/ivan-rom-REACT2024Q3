@@ -1,40 +1,50 @@
 import { FunctionComponent, useEffect, useState } from 'react';
 import { Person } from '../helpers/interfaces';
-
-const URL = 'https://swapi.dev/api/people/';
+import { URL } from '../helpers/constants';
+import { useNavigate } from 'react-router-dom';
 
 interface SearchProps {
   updateElements: (elements: Person[]) => void;
   updateLoader: (isLoading: boolean) => void;
+  setElementsCount: (elementsCount: number) => void;
+  currentPage: number;
 }
 
 const Search: FunctionComponent<SearchProps> = ({
   updateLoader,
   updateElements,
+  setElementsCount,
+  currentPage,
 }) => {
+  const navigate = useNavigate();
   const [searchTerm, setSearchTerm] = useState(
     localStorage.getItem('search-term') || '',
   );
 
   useEffect(() => {
-    makeRequest(searchTerm);
-  }, []);
+    makeRequest();
+  }, [currentPage]);
 
-  function makeRequest(search = '') {
+  function makeRequest() {
     updateLoader(true);
-    fetch(search ? `${URL}/?search=${search}` : URL)
+
+    const search = searchTerm.trim();
+    localStorage.setItem('search-term', search);
+
+    fetch(`${URL}/?page=${currentPage}&search=${search}`)
       .then((res) => res.json())
       .then((res) => {
         updateElements(res.results);
         updateLoader(false);
+        setElementsCount(res.count);
       });
   }
 
   function submitHandler(e: React.FormEvent) {
     e.preventDefault();
-    const search = searchTerm.trim();
-    localStorage.setItem('search-term', search);
-    makeRequest(search);
+    // to avoid double request and reset currentPage to avoid invalid request
+    if (currentPage !== 1) navigate('/search/1');
+    else makeRequest();
   }
 
   return (
