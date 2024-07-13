@@ -1,12 +1,14 @@
-import { FunctionComponent, useEffect, useState } from 'react';
+import { FC, useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { BASE_PATH, NOT_FOUND_PATH, URL } from '../../helpers/constants';
 import { Person } from '../../helpers/interfaces';
 import Loader from '../../components/Loader/Loader';
+import Details from '../../components/Details/Details';
 
 import './elementView.css';
+import { getData } from '../../helpers/api';
 
-const ElementView: FunctionComponent = () => {
+const ElementView: FC = () => {
   const { elementId, page } = useParams();
   const navigate = useNavigate();
   const [data, setData] = useState<Person>();
@@ -14,14 +16,12 @@ const ElementView: FunctionComponent = () => {
 
   useEffect(() => {
     setIsLoading(true);
-    fetch(`${URL}${elementId}`)
-      .then((res) => res.json())
+    getData(`${URL}${elementId}`)
       .then((res) => {
-        if (res.detail === 'Not found') navigate(NOT_FOUND_PATH);
-
         setData(res);
         setIsLoading(false);
-      });
+      })
+      .catch(() => navigate(NOT_FOUND_PATH));
   }, [elementId]);
 
   function closeDetails() {
@@ -34,14 +34,7 @@ const ElementView: FunctionComponent = () => {
         <Loader />
       ) : (
         <>
-          <div>Name: {data!.name}</div>
-          <div>Weight: {data!.mass}kg</div>
-          <div>Height: {data!.height}sm</div>
-          <div>Gender: {data!.gender}</div>
-          <div>Hair color: {data!.hair_color}</div>
-          <div>Skin color: {data!.skin_color}</div>
-          <div>Eye color: {data!.eye_color}</div>
-          <div>Birth year: {data!.birth_year}</div>
+          <Details data={data!} />
           <button
             onClick={closeDetails}
             className="element-view__button button"

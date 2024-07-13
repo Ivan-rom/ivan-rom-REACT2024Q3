@@ -1,19 +1,17 @@
-import { FunctionComponent } from 'react';
+import { FC } from 'react';
 import { Person } from '../../helpers/interfaces';
 import { Link } from 'react-router-dom';
+import { getElementId } from '../../helpers/getElementId';
 
 import './element.css';
 
-interface ElementProps {
+interface Props {
   data: Person;
 }
 
-const Element: FunctionComponent<ElementProps> = ({ data }) => {
+const Element: FC<Props> = ({ data }) => {
   const { name, url } = data;
-
-  // getting element id according to server data
-  const urlElements = url.split('/');
-  const id = urlElements[urlElements.length - 2];
+  const id = getElementId(url);
 
   return (
     <li className="element">

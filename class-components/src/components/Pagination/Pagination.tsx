@@ -1,32 +1,30 @@
-import { FunctionComponent } from 'react';
+import { FC } from 'react';
 import { Link } from 'react-router-dom';
 
 import './pagination.css';
 
-interface PaginationProps {
+const elementsPerPage = 10;
+
+interface Props {
   elementsCount: number;
   currentPage: number;
 }
 
-const Pagination: FunctionComponent<PaginationProps> = ({
-  elementsCount,
-  currentPage,
-}) => {
-  const elementsPerPage = 10;
+const Pagination: FC<Props> = ({ elementsCount, currentPage }) => {
   const totalPages = Math.ceil(elementsCount / elementsPerPage);
 
   return (
     <div className="pagination">
       <Link
         to={`/search/${currentPage - 1}`}
-        className={currentPage <= 1 ? 'button disabled' : 'button'}
+        className={currentPage > 1 ? 'button' : 'button disabled'}
       >
         prev
       </Link>
       <div>{currentPage}</div>
       <Link
         to={`/search/${currentPage + 1}`}
-        className={currentPage >= totalPages ? 'button disabled' : 'button'}
+        className={currentPage < totalPages ? 'button' : 'button disabled'}
       >
         next
       </Link>

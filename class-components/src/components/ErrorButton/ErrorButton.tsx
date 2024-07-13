@@ -1,8 +1,8 @@
-import { FunctionComponent, useState } from 'react';
+import { FC, useState } from 'react';
 
 import './errorButton.css';
 
-const ErrorButton: FunctionComponent = () => {
+const ErrorButton: FC = () => {
   const [hasError, setHasError] = useState(false);
 
   if (hasError) throw new Error('Synthetic error');

@@ -1,18 +1,19 @@
-import { FunctionComponent, useEffect, useState } from 'react';
+import { FC, useEffect, useState } from 'react';
 import { Person } from '../../helpers/interfaces';
 import { HOME_PAGE, NOT_FOUND_PATH, URL } from '../../helpers/constants';
 import { useNavigate } from 'react-router-dom';
 
 import './search.css';
+import { getData } from '../../helpers/api';
 
-interface SearchProps {
+interface Props {
   updateElements: (elements: Person[]) => void;
   updateLoader: (isLoading: boolean) => void;
   setElementsCount: (elementsCount: number) => void;
   currentPage: number;
 }
 
-const Search: FunctionComponent<SearchProps> = ({
+const Search: FC<Props> = ({
   updateLoader,
   updateElements,
   setElementsCount,
@@ -33,15 +34,13 @@ const Search: FunctionComponent<SearchProps> = ({
     const search = searchTerm.trim();
     localStorage.setItem('search-term', search);
 
-    fetch(`${URL}/?page=${currentPage}&search=${search}`)
-      .then((res) => res.json())
+    getData(`${URL}/?page=${currentPage}&search=${search}`)
       .then((res) => {
-        if (res.detail === 'Not found') navigate(NOT_FOUND_PATH);
-
         updateElements(res.results);
         updateLoader(false);
         setElementsCount(res.count);
-      });
+      })
+      .catch(() => navigate(NOT_FOUND_PATH));
   }
 
   function submitHandler(e: React.FormEvent) {

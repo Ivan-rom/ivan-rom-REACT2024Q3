@@ -1,4 +1,4 @@
-import { FunctionComponent } from 'react';
+import { FC } from 'react';
 import { BrowserRouter, Route, Routes, Navigate } from 'react-router-dom';
 import SearchView from './views/SearchView/SearchView';
 import ElementView from './views/ElementView/ElementView';
@@ -7,7 +7,7 @@ import { NOT_FOUND_PATH } from './helpers/constants';
 
 import './index.css';
 
-const App: FunctionComponent = () => {
+const App: FC = () => {
   return (
     <>
       <BrowserRouter>

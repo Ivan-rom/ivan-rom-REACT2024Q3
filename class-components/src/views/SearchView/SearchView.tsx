@@ -4,7 +4,6 @@ import { Person } from '../../helpers/interfaces';
 import List from '../../components/List/List';
 import Loader from '../../components/Loader/Loader';
 import ErrorButton from '../../components/ErrorButton/ErrorButton';
-import ErrorBoundary from '../../components/ErrorBoundary/ErrorBoundary';
 import Pagination from '../../components/Pagination/Pagination';
 import { Outlet, useNavigate, useParams } from 'react-router-dom';
 import { BASE_PATH, HOME_PAGE } from '../../helpers/constants';
@@ -29,36 +28,38 @@ const SearchView: FunctionComponent = () => {
 
   return (
     <div className="search-view">
-      <ErrorBoundary>
-        <div className="search-view__content">
-          <ErrorButton />
-          <Search
-            currentPage={currentPage}
-            updateElements={setElements}
-            updateLoader={setIsLoading}
-            setElementsCount={setElementsCount}
-          />
-          {isLoading ? (
-            <Loader />
-          ) : (
-            <>
-              <List elements={elements} />
-              <Pagination
-                currentPage={currentPage}
-                elementsCount={elementsCount}
-              />
-            </>
-          )}
-        </div>
-
-        <Outlet />
-        {elementId && (
-          <button
-            onClick={closeDetails}
-            className="search-view__close-button"
-          ></button>
+      <div className="search-view__content">
+        <ErrorButton />
+        <Search
+          currentPage={currentPage}
+          updateElements={setElements}
+          updateLoader={setIsLoading}
+          setElementsCount={setElementsCount}
+        />
+        {isLoading ? (
+          <Loader />
+        ) : (
+          <>
+            {elements.length ? (
+              <>
+                <List elements={elements} />
+                <Pagination
+                  currentPage={currentPage}
+                  elementsCount={elementsCount}
+                />
+              </>
+            ) : (
+              <h2>Nothing found</h2>
+            )}
+          </>
         )}
-      </ErrorBoundary>
+      </div>
+
+      <Outlet />
+
+      {elementId && (
+        <button onClick={closeDetails} className="search-view__close-button" />
+      )}
     </div>
   );
 };

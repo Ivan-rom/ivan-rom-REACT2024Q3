@@ -1,21 +1,19 @@
-import { FunctionComponent } from 'react';
+import { FC } from 'react';
 import { Person } from '../../helpers/interfaces';
 import Element from '../Element/Element';
 
 import './list.css';
 
-interface ListProps {
+interface Props {
   elements: Person[];
 }
 
-const List: FunctionComponent<ListProps> = ({ elements }) => {
+const List: FC<Props> = ({ elements }) => {
   return (
     <ul className="list">
-      {elements ? (
-        elements.map((element) => <Element data={element} key={element.url} />)
-      ) : (
-        <h2>Nothing found</h2>
-      )}
+      {elements.map((element) => (
+        <Element data={element} key={element.url} />
+      ))}
     </ul>
   );
 };

@@ -1,10 +1,10 @@
-import { FunctionComponent } from 'react';
+import { FC } from 'react';
 import { Link } from 'react-router-dom';
 import { HOME_PAGE } from '../../helpers/constants';
 
 import './notFoundView.css';
 
-const NotFoundView: FunctionComponent = () => {
+const NotFoundView: FC = () => {
   return (
     <div className="not-found-view">
       <h1>404</h1>
