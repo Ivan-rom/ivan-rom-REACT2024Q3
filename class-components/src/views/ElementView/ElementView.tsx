@@ -1,8 +1,10 @@
 import { FunctionComponent, useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
-import { URL } from '../helpers/constants';
-import { Person } from '../helpers/interfaces';
-import Loader from '../components/Loader';
+import { URL } from '../../helpers/constants';
+import { Person } from '../../helpers/interfaces';
+import Loader from '../../components/Loader/Loader';
+
+import './elementView.css';
 
 const ElementView: FunctionComponent = () => {
   const { elementId } = useParams();
@@ -20,7 +22,7 @@ const ElementView: FunctionComponent = () => {
   }, [elementId]);
 
   return (
-    <>
+    <div className="element-view">
       {isLoading ? (
         <Loader />
       ) : (
@@ -35,7 +37,7 @@ const ElementView: FunctionComponent = () => {
           <div>Birth year: {data!.birth_year}</div>
         </>
       )}
-    </>
+    </div>
   );
 };
 

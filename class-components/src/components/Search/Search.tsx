@@ -1,7 +1,9 @@
 import { FunctionComponent, useEffect, useState } from 'react';
-import { Person } from '../helpers/interfaces';
-import { URL } from '../helpers/constants';
+import { Person } from '../../helpers/interfaces';
+import { URL } from '../../helpers/constants';
 import { useNavigate } from 'react-router-dom';
+
+import './search.css';
 
 interface SearchProps {
   updateElements: (elements: Person[]) => void;
@@ -48,15 +50,16 @@ const Search: FunctionComponent<SearchProps> = ({
   }
 
   return (
-    <form onSubmit={submitHandler}>
+    <form onSubmit={submitHandler} className="search">
       <input
         type="text"
         name="search"
         placeholder="Search..."
         value={searchTerm}
         onChange={({ target }) => setSearchTerm(target.value)}
+        className="search__input"
       />
-      <button>Search</button>
+      <button className="button">Search</button>
     </form>
   );
 };

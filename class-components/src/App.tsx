@@ -1,8 +1,10 @@
 import { FunctionComponent } from 'react';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
-import SearchView from './views/SearchView';
-import ElementView from './views/ElementView';
-import NotFoundView from './views/NotFoundView';
+import SearchView from './views/SearchView/SearchView';
+import ElementView from './views/ElementView/ElementView';
+import NotFoundView from './views/NotFoundView/NotFoundView';
+
+import './index.css';
 
 const App: FunctionComponent = () => {
   return (
