@@ -1,5 +1,5 @@
 import { FunctionComponent, useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { URL } from '../../helpers/constants';
 import { Person } from '../../helpers/interfaces';
 import Loader from '../../components/Loader/Loader';
@@ -7,7 +7,8 @@ import Loader from '../../components/Loader/Loader';
 import './elementView.css';
 
 const ElementView: FunctionComponent = () => {
-  const { elementId } = useParams();
+  const { elementId, page } = useParams();
+  const navigate = useNavigate();
   const [data, setData] = useState<Person>();
   const [isLoading, setIsLoading] = useState(true);
 
@@ -20,6 +21,10 @@ const ElementView: FunctionComponent = () => {
         setIsLoading(false);
       });
   }, [elementId]);
+
+  function closeDetails() {
+    navigate(`/search/${page}`);
+  }
 
   return (
     <div className="element-view">
@@ -35,6 +40,12 @@ const ElementView: FunctionComponent = () => {
           <div>Skin color: {data!.skin_color}</div>
           <div>Eye color: {data!.eye_color}</div>
           <div>Birth year: {data!.birth_year}</div>
+          <button
+            onClick={closeDetails}
+            className="element-view__button button"
+          >
+            X
+          </button>
         </>
       )}
     </div>

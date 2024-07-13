@@ -11,7 +11,7 @@ import { Outlet, useNavigate, useParams } from 'react-router-dom';
 import './searchView.css';
 
 const SearchView: FunctionComponent = () => {
-  const { page } = useParams();
+  const { page, elementId } = useParams();
   const navigate = useNavigate();
   const [elements, setElements] = useState<Person[]>([]);
   const [elementsCount, setElementsCount] = useState(0);
@@ -21,6 +21,10 @@ const SearchView: FunctionComponent = () => {
   useEffect(() => {
     if (!page) navigate('/search/1');
   }, [page, navigate]);
+
+  function closeDetails() {
+    navigate(`/search/${currentPage}`);
+  }
 
   return (
     <div className="search-view">
@@ -47,6 +51,12 @@ const SearchView: FunctionComponent = () => {
         </div>
 
         <Outlet />
+        {elementId && (
+          <button
+            onClick={closeDetails}
+            className="search-view__close-button"
+          ></button>
+        )}
       </ErrorBoundary>
     </div>
   );

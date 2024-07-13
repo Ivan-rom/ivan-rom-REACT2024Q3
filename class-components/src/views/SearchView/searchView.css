@@ -9,3 +9,10 @@
   flex-grow: 1;
   position: relative;
 }
+
+.search-view__close-button {
+  position: absolute;
+  inset: 0;
+  background-color: #464174;
+  opacity: 0.5;
+}
