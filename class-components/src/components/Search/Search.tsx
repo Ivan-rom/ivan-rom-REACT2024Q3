@@ -1,10 +1,11 @@
-import { FC, useEffect, useState } from 'react';
+import { FC, useEffect } from 'react';
 import { Person } from '../../helpers/interfaces';
 import { HOME_PAGE, NOT_FOUND_PATH, URL } from '../../helpers/constants';
 import { useNavigate } from 'react-router-dom';
+import { getData } from '../../helpers/api';
+import useLocalStorage from '../../hooks/useLocalStorage';
 
 import './search.css';
-import { getData } from '../../helpers/api';
 
 interface Props {
   updateElements: (elements: Person[]) => void;
@@ -20,9 +21,7 @@ const Search: FC<Props> = ({
   currentPage,
 }) => {
   const navigate = useNavigate();
-  const [searchTerm, setSearchTerm] = useState(
-    localStorage.getItem('search-term') || '',
-  );
+  const [searchTerm, setSearchTerm] = useLocalStorage('search-term');
 
   useEffect(() => {
     makeRequest();
@@ -31,10 +30,7 @@ const Search: FC<Props> = ({
   function makeRequest() {
     updateLoader(true);
 
-    const search = searchTerm.trim();
-    localStorage.setItem('search-term', search);
-
-    getData(`${URL}/?page=${currentPage}&search=${search}`)
+    getData(`${URL}/?page=${currentPage}&search=${searchTerm.trim()}`)
       .then((res) => {
         updateElements(res.results);
         updateLoader(false);
