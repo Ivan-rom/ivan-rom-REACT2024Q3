@@ -7,6 +7,7 @@ import ErrorButton from '../../components/ErrorButton/ErrorButton';
 import ErrorBoundary from '../../components/ErrorBoundary/ErrorBoundary';
 import Pagination from '../../components/Pagination/Pagination';
 import { Outlet, useNavigate, useParams } from 'react-router-dom';
+import { BASE_PATH, HOME_PAGE } from '../../helpers/constants';
 
 import './searchView.css';
 
@@ -19,11 +20,11 @@ const SearchView: FunctionComponent = () => {
   const currentPage = page ? +page : 1;
 
   useEffect(() => {
-    if (!page) navigate('/search/1');
+    if (!page) navigate(HOME_PAGE);
   }, [page, navigate]);
 
   function closeDetails() {
-    navigate(`/search/${currentPage}`);
+    navigate(`${BASE_PATH}/${currentPage}`);
   }
 
   return (

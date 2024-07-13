@@ -1,6 +1,6 @@
 import { FunctionComponent, useEffect, useState } from 'react';
 import { Person } from '../../helpers/interfaces';
-import { URL } from '../../helpers/constants';
+import { HOME_PAGE, NOT_FOUND_PATH, URL } from '../../helpers/constants';
 import { useNavigate } from 'react-router-dom';
 
 import './search.css';
@@ -36,6 +36,8 @@ const Search: FunctionComponent<SearchProps> = ({
     fetch(`${URL}/?page=${currentPage}&search=${search}`)
       .then((res) => res.json())
       .then((res) => {
+        if (res.detail === 'Not found') navigate(NOT_FOUND_PATH);
+
         updateElements(res.results);
         updateLoader(false);
         setElementsCount(res.count);
@@ -45,7 +47,7 @@ const Search: FunctionComponent<SearchProps> = ({
   function submitHandler(e: React.FormEvent) {
     e.preventDefault();
     // to avoid double request and reset currentPage to avoid invalid request
-    if (currentPage !== 1) navigate('/search/1');
+    if (currentPage !== 1) navigate(HOME_PAGE);
     else makeRequest();
   }
 

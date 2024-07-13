@@ -1,6 +1,6 @@
 import { FunctionComponent, useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
-import { URL } from '../../helpers/constants';
+import { BASE_PATH, NOT_FOUND_PATH, URL } from '../../helpers/constants';
 import { Person } from '../../helpers/interfaces';
 import Loader from '../../components/Loader/Loader';
 
@@ -17,13 +17,15 @@ const ElementView: FunctionComponent = () => {
     fetch(`${URL}${elementId}`)
       .then((res) => res.json())
       .then((res) => {
+        if (res.detail === 'Not found') navigate(NOT_FOUND_PATH);
+
         setData(res);
         setIsLoading(false);
       });
   }, [elementId]);
 
   function closeDetails() {
-    navigate(`/search/${page}`);
+    navigate(`${BASE_PATH}/${page}`);
   }
 
   return (
