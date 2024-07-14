@@ -1,9 +1,8 @@
-export async function getData(url: string) {
-  const data = await fetch(url)
-    .then((res) => res.json())
-    .then((res) => {
-      if (res.detail === 'Not found') throw new Error('Invalid request');
-      return res;
-    });
+export async function fetchData(url: string) {
+  const response = await fetch(url);
+  const data = await response.json();
+
+  if (data.detail === 'Not found') throw new Error('Invalid request');
+
   return data;
 }

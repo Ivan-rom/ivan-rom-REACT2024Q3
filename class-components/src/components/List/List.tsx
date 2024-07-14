@@ -1,12 +1,11 @@
 import { FC } from 'react';
-import { Person } from '../../helpers/interfaces';
 import Element from '../Element/Element';
 import Pagination from '../Pagination/Pagination';
 
 import './list.css';
 
 interface Props {
-  elements: Person[];
+  elements: { name: string; url: string }[];
   elementsCount: number;
 }
 
@@ -17,7 +16,7 @@ const List: FC<Props> = ({ elements, elementsCount }) => {
     <>
       <ul className="list">
         {elements.map((element) => (
-          <Element data={element} key={element.url} />
+          <Element name={element.name} url={element.url} key={element.url} />
         ))}
       </ul>
       <Pagination elementsCount={elementsCount} />

@@ -11,7 +11,7 @@ interface Props {
 
 const Pagination: FC<Props> = ({ elementsCount }) => {
   const { page } = useParams();
-  const currentPage = page ? +page : 1;
+  const currentPage = +page!;
 
   const totalPages = Math.ceil(elementsCount / elementsPerPage);
 

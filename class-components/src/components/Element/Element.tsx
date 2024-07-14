@@ -1,16 +1,15 @@
 import { FC } from 'react';
-import { Person } from '../../helpers/interfaces';
 import { Link } from 'react-router-dom';
 import { getElementId } from '../../helpers/getElementId';
 
 import './element.css';
 
 interface Props {
-  data: Person;
+  name: string;
+  url: string;
 }
 
-const Element: FC<Props> = ({ data }) => {
-  const { name, url } = data;
+const Element: FC<Props> = ({ name, url }) => {
   const id = getElementId(url);
 
   return (

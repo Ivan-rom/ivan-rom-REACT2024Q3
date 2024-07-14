@@ -6,7 +6,7 @@ import Loader from '../../components/Loader/Loader';
 import Details from '../../components/Details/Details';
 
 import './elementView.css';
-import { getData } from '../../helpers/api';
+import { fetchData } from '../../helpers/api';
 
 const ElementView: FC = () => {
   const { elementId, page } = useParams();
@@ -15,13 +15,19 @@ const ElementView: FC = () => {
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    setIsLoading(true);
-    getData(`${URL}${elementId}`)
-      .then((res) => {
-        setData(res);
+    const getData = async () => {
+      setIsLoading(true);
+
+      try {
+        const data = await fetchData(`${URL}${elementId}`);
+        setData(data);
         setIsLoading(false);
-      })
-      .catch(() => navigate(NOT_FOUND_PATH));
+      } catch {
+        navigate(NOT_FOUND_PATH);
+      }
+    };
+
+    getData();
   }, [elementId]);
 
   function closeDetails() {
@@ -36,6 +42,7 @@ const ElementView: FC = () => {
         <>
           <Details data={data!} />
           <button
+            data-testid="close-button"
             onClick={closeDetails}
             className="element-view__button button"
           >

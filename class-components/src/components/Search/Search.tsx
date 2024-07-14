@@ -1,8 +1,13 @@
 import { FC, useEffect } from 'react';
 import { Person } from '../../helpers/interfaces';
-import { HOME_PAGE, NOT_FOUND_PATH, URL } from '../../helpers/constants';
+import {
+  HOME_PAGE,
+  LOCAL_STORAGE_SEARCH_KEY,
+  NOT_FOUND_PATH,
+  URL,
+} from '../../helpers/constants';
 import { useNavigate } from 'react-router-dom';
-import { getData } from '../../helpers/api';
+import { fetchData } from '../../helpers/api';
 import useLocalStorage from '../../hooks/useLocalStorage';
 
 import './search.css';
@@ -21,33 +26,37 @@ const Search: FC<Props> = ({
   currentPage,
 }) => {
   const navigate = useNavigate();
-  const [searchTerm, setSearchTerm] = useLocalStorage('search-term');
+  const [searchTerm, setSearchTerm] = useLocalStorage(LOCAL_STORAGE_SEARCH_KEY);
 
   useEffect(() => {
     makeRequest();
   }, [currentPage]);
 
-  function makeRequest() {
+  async function makeRequest() {
     updateLoader(true);
 
-    getData(`${URL}/?page=${currentPage}&search=${searchTerm.trim()}`)
-      .then((res) => {
-        updateElements(res.results);
-        updateLoader(false);
-        setElementsCount(res.count);
-      })
-      .catch(() => navigate(NOT_FOUND_PATH));
+    try {
+      const data = await fetchData(
+        `${URL}/?page=${currentPage}&search=${searchTerm.trim()}`,
+      );
+      updateElements(data.results);
+      updateLoader(false);
+      setElementsCount(data.count);
+    } catch {
+      navigate(NOT_FOUND_PATH);
+    }
   }
 
   function submitHandler(e: React.FormEvent) {
     e.preventDefault();
     // to avoid double request and reset currentPage to avoid invalid request
+    localStorage.setItem(LOCAL_STORAGE_SEARCH_KEY, searchTerm.trim());
     if (currentPage !== 1) navigate(HOME_PAGE);
     else makeRequest();
   }
 
   return (
-    <form onSubmit={submitHandler} className="search">
+    <form name="search-form" onSubmit={submitHandler} className="search">
       <input
         type="text"
         name="search"
