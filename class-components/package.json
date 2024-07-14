@@ -10,7 +10,8 @@
     "lint:fix": "eslint src/ --fix --color",
     "format:fix": "prettier --write src/",
     "preview": "vite preview",
-    "prepare": "cd .. && husky class-components/.husky"
+    "prepare": "cd .. && husky class-components/.husky",
+    "test": "vitest"
   },
   "dependencies": {
     "react": "^18.3.1",
@@ -18,11 +19,15 @@
     "react-router-dom": "^6.24.1"
   },
   "devDependencies": {
+    "@testing-library/dom": "^10.3.1",
+    "@testing-library/jest-dom": "^6.4.6",
+    "@testing-library/react": "^16.0.0",
     "@types/react": "^18.3.3",
     "@types/react-dom": "^18.3.0",
     "@typescript-eslint/eslint-plugin": "^7.15.0",
     "@typescript-eslint/parser": "^7.15.0",
     "@vitejs/plugin-react": "^4.3.1",
+    "@vitest/ui": "^2.0.2",
     "eslint": "^8.57.0",
     "eslint-config-prettier": "^9.1.0",
     "eslint-plugin-jsx-a11y": "^6.9.0",
@@ -32,10 +37,12 @@
     "eslint-plugin-react-hooks": "^4.6.2",
     "eslint-plugin-react-refresh": "^0.4.7",
     "husky": "^9.0.11",
+    "jsdom": "^24.1.0",
     "lint-staged": "^15.2.7",
     "prettier": "^3.3.2",
     "typescript": "^5.2.2",
-    "vite": "^5.3.1"
+    "vite": "^5.3.1",
+    "vitest": "^2.0.2"
   },
   "lint-staged": {
     "**/*": "npm run lint"

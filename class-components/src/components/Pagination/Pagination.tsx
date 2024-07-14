@@ -1,5 +1,5 @@
 import { FC } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 
 import './pagination.css';
 
@@ -7,10 +7,12 @@ const elementsPerPage = 10;
 
 interface Props {
   elementsCount: number;
-  currentPage: number;
 }
 
-const Pagination: FC<Props> = ({ elementsCount, currentPage }) => {
+const Pagination: FC<Props> = ({ elementsCount }) => {
+  const { page } = useParams();
+  const currentPage = page ? +page : 1;
+
   const totalPages = Math.ceil(elementsCount / elementsPerPage);
 
   return (

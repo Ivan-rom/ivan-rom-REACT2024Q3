@@ -4,7 +4,6 @@ import { Person } from '../../helpers/interfaces';
 import List from '../../components/List/List';
 import Loader from '../../components/Loader/Loader';
 import ErrorButton from '../../components/ErrorButton/ErrorButton';
-import Pagination from '../../components/Pagination/Pagination';
 import { Outlet, useNavigate, useParams } from 'react-router-dom';
 import { BASE_PATH, HOME_PAGE } from '../../helpers/constants';
 
@@ -39,19 +38,7 @@ const SearchView: FunctionComponent = () => {
         {isLoading ? (
           <Loader />
         ) : (
-          <>
-            {elements.length ? (
-              <>
-                <List elements={elements} />
-                <Pagination
-                  currentPage={currentPage}
-                  elementsCount={elementsCount}
-                />
-              </>
-            ) : (
-              <h2>Nothing found</h2>
-            )}
-          </>
+          <List elements={elements} elementsCount={elementsCount} />
         )}
       </div>
 
