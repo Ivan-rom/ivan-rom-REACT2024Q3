@@ -1,0 +1,18 @@
+.search-view {
+  padding: 20px 40px;
+  display: flex;
+  gap: 20px;
+}
+
+.search-view__content {
+  flex-basis: 50%;
+  flex-grow: 1;
+  position: relative;
+}
+
+.search-view__close-button {
+  position: absolute;
+  inset: 0;
+  background-color: #464174;
+  opacity: 0.5;
+}

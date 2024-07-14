@@ -1,42 +1,26 @@
-import React from 'react';
-import Search from './components/Search';
-import { Person } from './helpers/interfaces';
-import List from './components/List';
-import Loader from './components/Loader';
-import ErrorButton from './components/ErrorButton';
-import ErrorBoundary from './components/ErrorBoundary';
+import { FC } from 'react';
+import { BrowserRouter, Route, Routes, Navigate } from 'react-router-dom';
+import SearchView from './views/SearchView/SearchView';
+import ElementView from './views/ElementView/ElementView';
+import NotFoundView from './views/NotFoundView/NotFoundView';
+import { NOT_FOUND_PATH } from './helpers/constants';
 
-interface AppProps {}
+import './index.css';
 
-interface AppState {
-  elements: Person[];
-  isLoading: boolean;
-}
-
-class App extends React.Component<AppProps, AppState> {
-  state: AppState = {
-    elements: [],
-    isLoading: true,
-  };
-
-  render() {
-    return (
-      <>
-        <ErrorBoundary>
-          <ErrorButton />
-          <Search
-            updateLoader={(isLoading: boolean) => this.setState({ isLoading })}
-            updateElements={(elements: Person[]) => this.setState({ elements })}
-          />
-          {this.state.isLoading ? (
-            <Loader />
-          ) : (
-            <List elements={this.state.elements} />
-          )}
-        </ErrorBoundary>
-      </>
-    );
-  }
-}
+const App: FC = () => {
+  return (
+    <>
+      <BrowserRouter>
+        <Routes>
+          <Route path="/search/:page?" element={<SearchView />}>
+            <Route path="details/:elementId" element={<ElementView />} />
+          </Route>
+          <Route path={NOT_FOUND_PATH} element={<NotFoundView />} />
+          <Route path="*" element={<Navigate to={NOT_FOUND_PATH} />} />
+        </Routes>
+      </BrowserRouter>
+    </>
+  );
+};
 
 export default App;
