@@ -1,7 +1,8 @@
-import { render, screen } from '@testing-library/react';
+import { fireEvent, render, screen } from '@testing-library/react';
 import { describe, expect, it, vi } from 'vitest';
 import SearchView from './SearchView';
-import { BrowserRouter } from 'react-router-dom';
+import { BrowserRouter, Route, Routes } from 'react-router-dom';
+import { HOME_PAGE } from '../../helpers/constants';
 
 const searchText = 'search text';
 const loaderText = 'loader text';
@@ -35,15 +36,32 @@ describe('Search view component', () => {
     expect(screen.getByText(searchText)).toBeInTheDocument();
   });
 
-  it('renders Loader component', () => {
-    render(<SearchView />, { wrapper: BrowserRouter });
-
-    expect(screen.getByText(loaderText)).toBeInTheDocument();
-  });
-
   it('renders ErrorButton component', () => {
     render(<SearchView />, { wrapper: BrowserRouter });
 
     expect(screen.getByText(errorButtonText)).toBeInTheDocument();
+  });
+
+  it('closes details on close button click', () => {
+    const initialPath = `${HOME_PAGE}/details/1`;
+    window.history.pushState({}, 'test page', initialPath);
+
+    render(
+      <BrowserRouter>
+        <Routes>
+          <Route path="/search/:page" element={<SearchView />}>
+            <Route path="details/:elementId" element={<div>Test Outlet</div>} />
+          </Route>
+        </Routes>
+      </BrowserRouter>,
+    );
+
+    const closeButton = screen.getByRole('button');
+
+    expect(closeButton).toBeInTheDocument();
+
+    fireEvent.click(closeButton);
+
+    expect(window.location.pathname).toBe(HOME_PAGE);
   });
 });

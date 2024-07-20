@@ -1,5 +1,5 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
-import { URL } from './constants';
+import { BASE_URL } from './constants';
 import { PeopleResponse, PersonResponse } from './interfaces';
 
 type GetPeopleParams = {
@@ -9,7 +9,7 @@ type GetPeopleParams = {
 
 export const api = createApi({
   reducerPath: 'starWarsApi',
-  baseQuery: fetchBaseQuery({ baseUrl: URL }),
+  baseQuery: fetchBaseQuery({ baseUrl: BASE_URL }),
   endpoints: (builder) => ({
     getPeople: builder.query<PeopleResponse, GetPeopleParams>({
       query: ({ page, searchTerm = '' }) =>
