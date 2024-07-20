@@ -1,8 +1,8 @@
-import { FunctionComponent, useEffect, useState } from 'react';
+import { FunctionComponent, useEffect } from 'react';
 import Search from '../../components/Search/Search';
-import { Person } from '../../helpers/interfaces';
+
 import List from '../../components/List/List';
-import Loader from '../../components/Loader/Loader';
+
 import ErrorButton from '../../components/ErrorButton/ErrorButton';
 import { Outlet, useNavigate, useParams } from 'react-router-dom';
 import { BASE_PATH, HOME_PAGE } from '../../helpers/constants';
@@ -12,9 +12,6 @@ import './searchView.css';
 const SearchView: FunctionComponent = () => {
   const { page, elementId } = useParams();
   const navigate = useNavigate();
-  const [elements, setElements] = useState<Person[]>([]);
-  const [elementsCount, setElementsCount] = useState(0);
-  const [isLoading, setIsLoading] = useState(true);
   const currentPage = page ? +page : 1;
 
   useEffect(() => {
@@ -29,17 +26,8 @@ const SearchView: FunctionComponent = () => {
     <div className="search-view">
       <div className="search-view__content">
         <ErrorButton />
-        <Search
-          currentPage={currentPage}
-          updateElements={setElements}
-          updateLoader={setIsLoading}
-          setElementsCount={setElementsCount}
-        />
-        {isLoading ? (
-          <Loader />
-        ) : (
-          <List elements={elements} elementsCount={elementsCount} />
-        )}
+        <Search />
+        <List />
       </div>
 
       <Outlet />

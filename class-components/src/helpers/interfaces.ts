@@ -1,4 +1,4 @@
-export interface Person {
+export type Person = {
   name: string;
   height: string;
   mass: string;
@@ -8,4 +8,15 @@ export interface Person {
   skin_color: string;
   eye_color: string;
   birth_year: string;
-}
+};
+
+export type PersonResponse = Person & ErrorRequest;
+
+export type PeopleResponse = {
+  count: number;
+  results: Person[];
+} & ErrorRequest;
+
+export type ErrorRequest = {
+  detail?: 'Not found';
+};

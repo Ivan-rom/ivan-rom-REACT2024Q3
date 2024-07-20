@@ -1,58 +1,28 @@
 import { FC, useEffect } from 'react';
-import { Person } from '../../helpers/interfaces';
-import {
-  HOME_PAGE,
-  LOCAL_STORAGE_SEARCH_KEY,
-  NOT_FOUND_PATH,
-  URL,
-} from '../../helpers/constants';
-import { useNavigate } from 'react-router-dom';
-import { fetchData } from '../../helpers/api';
+import { HOME_PAGE, LOCAL_STORAGE_SEARCH_KEY } from '../../helpers/constants';
 import useLocalStorage from '../../hooks/useLocalStorage';
-
 import './search.css';
+import useAppDispatch from '../../hooks/useAppDispatch';
+import { updateSearchTerm } from '../../store/peopleSlice';
+import { useNavigate, useParams } from 'react-router-dom';
 
-interface Props {
-  updateElements: (elements: Person[]) => void;
-  updateLoader: (isLoading: boolean) => void;
-  setElementsCount: (elementsCount: number) => void;
-  currentPage: number;
-}
-
-const Search: FC<Props> = ({
-  updateLoader,
-  updateElements,
-  setElementsCount,
-  currentPage,
-}) => {
+const Search: FC = () => {
+  const dispatch = useAppDispatch();
+  const { page } = useParams();
   const navigate = useNavigate();
+  const currentPage = page ? +page : 1;
   const [searchTerm, setSearchTerm] = useLocalStorage(LOCAL_STORAGE_SEARCH_KEY);
 
   useEffect(() => {
-    makeRequest();
-  }, [currentPage]);
-
-  async function makeRequest() {
-    updateLoader(true);
-
-    try {
-      const data = await fetchData(
-        `${URL}/?page=${currentPage}&search=${searchTerm.trim()}`,
-      );
-      updateElements(data.results);
-      updateLoader(false);
-      setElementsCount(data.count);
-    } catch {
-      navigate(NOT_FOUND_PATH);
-    }
-  }
+    dispatch(updateSearchTerm(searchTerm));
+  }, []);
 
   function submitHandler(e: React.FormEvent) {
     e.preventDefault();
-    // to avoid double request and reset currentPage to avoid invalid request
     localStorage.setItem(LOCAL_STORAGE_SEARCH_KEY, searchTerm.trim());
+    // to avoid double request and reset currentPage to avoid invalid request
     if (currentPage !== 1) navigate(HOME_PAGE);
-    else makeRequest();
+    dispatch(updateSearchTerm(searchTerm));
   }
 
   return (
