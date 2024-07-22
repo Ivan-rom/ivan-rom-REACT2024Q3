@@ -28,8 +28,8 @@ const List: FC = () => {
   return (
     <>
       <ul className="list">
-        {data.results.map(({ name, url }) => (
-          <Element name={name} url={url} key={url} />
+        {data.results.map((person) => (
+          <Element person={person} key={person.url} />
         ))}
       </ul>
       <Pagination elementsCount={data.count} />
