@@ -1,0 +1,41 @@
+.controls {
+  position: fixed;
+  right: 50px;
+  background-color: #fff;
+  color: black;
+  padding: 10px;
+  border-radius: 5px;
+  animation: appearance 0.2s 1 ease-in-out both;
+}
+
+.controls__title {
+  margin-bottom: 10px;
+  font-size: 18px;
+}
+
+.controls__buttons {
+  display: flex;
+  gap: 5px;
+}
+
+.controls__button {
+  font-size: 18px;
+  color: #fff;
+}
+
+.controls__button.button-delete {
+  background-color: rgb(182, 75, 75);
+}
+
+.controls__button.button-download {
+  background-color: rgb(77, 138, 77);
+}
+
+@keyframes appearance {
+  from {
+    bottom: -50px;
+  }
+  to {
+    bottom: 50px;
+  }
+}

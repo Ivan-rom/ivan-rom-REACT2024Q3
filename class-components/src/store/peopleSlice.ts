@@ -37,9 +37,17 @@ const peopleSlice = createSlice({
       newPeople.push(payload);
       return { ...state, selectedPeople: [...newPeople] };
     },
+
+    clearSelectedPeople: (state) => {
+      return { ...state, selectedPeople: [] };
+    },
   },
 });
 
-export const { updateSearchTerm, removeSelectedPerson, addSelectedPerson } =
-  peopleSlice.actions;
+export const {
+  updateSearchTerm,
+  removeSelectedPerson,
+  addSelectedPerson,
+  clearSelectedPeople,
+} = peopleSlice.actions;
 export default peopleSlice.reducer;

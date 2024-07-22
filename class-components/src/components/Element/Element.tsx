@@ -1,4 +1,4 @@
-import { ChangeEvent, FC, useState } from 'react';
+import { ChangeEvent, FC, useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { getElementId } from '../../helpers/getElementId';
 import useAppSelector from '../../hooks/useAppSelector';
@@ -22,6 +22,11 @@ const Element: FC<Props> = ({ person }) => {
   const index = selectedPeople.findIndex((element) => element.url === url);
   const [isSelected, setIsSelected] = useState(index !== -1);
   const id = getElementId(url);
+
+  useEffect(() => {
+    const index = selectedPeople.findIndex((element) => element.url === url);
+    setIsSelected(index !== -1);
+  }, [selectedPeople, url]);
 
   function changeHandler({ target }: ChangeEvent<HTMLInputElement>) {
     setIsSelected(target.checked);
