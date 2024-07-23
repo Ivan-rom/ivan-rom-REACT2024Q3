@@ -47,7 +47,11 @@ const SearchView: FunctionComponent = () => {
       </div>
 
       {elementId && (
-        <button onClick={closeDetails} className="search-view__close-button" />
+        <button
+          onClick={closeDetails}
+          className="search-view__close-button"
+          data-testid="close-button"
+        />
       )}
 
       {!!selectedPeople.length && <Controls />}

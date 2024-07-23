@@ -5,6 +5,7 @@ import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import { HOME_PAGE } from '../../helpers/constants';
 import { Provider } from 'react-redux';
 import { store } from '../../store/store';
+import ContextProvider from '../../components/ContextProvider/ContextProvider';
 
 const searchText = 'search text';
 const loaderText = 'loader text';
@@ -13,13 +14,15 @@ const errorButtonText = 'error button text';
 
 const component = (
   <Provider store={store}>
-    <BrowserRouter>
-      <Routes>
-        <Route path="/search/:page" element={<SearchView />}>
-          <Route path="details/:elementId" element={<div>Test Outlet</div>} />
-        </Route>
-      </Routes>
-    </BrowserRouter>
+    <ContextProvider>
+      <BrowserRouter>
+        <Routes>
+          <Route path="/search/:page" element={<SearchView />}>
+            <Route path="details/:elementId" element={<div>Test Outlet</div>} />
+          </Route>
+        </Routes>
+      </BrowserRouter>
+    </ContextProvider>
   </Provider>
 );
 
@@ -64,7 +67,7 @@ describe('Search view component', () => {
   it('closes details on close button click', () => {
     render(component);
 
-    const closeButton = screen.getByRole('button');
+    const closeButton = screen.getByTestId('close-button');
 
     expect(closeButton).toBeInTheDocument();
 

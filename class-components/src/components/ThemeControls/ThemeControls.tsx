@@ -13,7 +13,7 @@ const ThemeControls: FC = () => {
 
   return (
     <div className="theme-controls">
-      <button onClick={changeTheme} className="">
+      <button onClick={changeTheme}>
         {isDark ? (
           <img src="/moon.svg" alt="moon icon" />
         ) : (
