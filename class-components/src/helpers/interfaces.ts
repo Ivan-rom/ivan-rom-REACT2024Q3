@@ -1,3 +1,5 @@
+import { Dispatch, SetStateAction } from 'react';
+
 export type Person = {
   name: string;
   height: string;
@@ -19,4 +21,9 @@ export type PeopleResponse = {
 
 export type ErrorRequest = {
   detail?: 'Not found';
+};
+
+export type ThemeContextType = {
+  isDark: boolean;
+  setIsDark: Dispatch<SetStateAction<boolean>>;
 };

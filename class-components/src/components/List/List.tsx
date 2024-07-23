@@ -26,14 +26,14 @@ const List: FC = () => {
   if (!data?.results.length) return <h2>Nothing found</h2>;
 
   return (
-    <>
-      <ul className="list">
+    <div className="list">
+      <ul className="list-content">
         {data.results.map((person) => (
           <Element person={person} key={person.url} />
         ))}
       </ul>
       <Pagination elementsCount={data.count} />
-    </>
+    </div>
   );
 };
 

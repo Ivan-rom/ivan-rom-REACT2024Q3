@@ -1,18 +1,27 @@
-.search-view {
-  padding: 20px 40px;
+.search-view__content {
   display: flex;
   gap: 20px;
+  position: relative;
+}
+
+.search-view__header {
+  position: relative;
+  z-index: 2;
+  padding: 20px 0;
+  background-color: inherit;
+}
+
+.header__wrapper {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
 
 .search-view__content {
-  flex-basis: 50%;
-  flex-grow: 1;
-  position: relative;
+  padding: 15px 0;
 }
 
 .search-view__close-button {
   position: absolute;
   inset: 0;
-  background-color: #464174;
-  opacity: 0.5;
 }

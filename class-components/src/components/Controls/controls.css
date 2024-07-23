@@ -1,11 +1,16 @@
 .controls {
   position: fixed;
   right: 50px;
-  background-color: #fff;
-  color: black;
   padding: 10px;
   border-radius: 5px;
   animation: appearance 0.2s 1 ease-in-out both;
+  background-color: #2b2b2b;
+  color: #ffffff;
+
+  &.controls-dark {
+    background-color: #fff;
+    color: #2b2b2b;
+  }
 }
 
 .controls__title {

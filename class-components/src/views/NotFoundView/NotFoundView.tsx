@@ -6,7 +6,7 @@ import './notFoundView.css';
 
 const NotFoundView: FC = () => {
   return (
-    <div className="not-found-view">
+    <div className={`not-found-view`}>
       <h1>404</h1>
       <h2>The page is not found</h2>
       <div>

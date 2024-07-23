@@ -1,20 +1,23 @@
-import { FC } from 'react';
+import { FC, useContext } from 'react';
 import useAppSelector from '../../hooks/useAppSelector';
 import useAppDispatch from '../../hooks/useAppDispatch';
 import { clearSelectedPeople } from '../../store/peopleSlice';
+import { ThemeContext } from '../../helpers/context';
+import { ThemeContextType } from '../../helpers/interfaces';
 
 import './controls.css';
 
 const Controls: FC = () => {
   const dispatch = useAppDispatch();
   const { selectedPeople } = useAppSelector((state) => state.people);
+  const { isDark } = useContext(ThemeContext) as ThemeContextType;
 
   function unselectAllHandler() {
     dispatch(clearSelectedPeople());
   }
 
   return (
-    <div className="controls">
+    <div className={`controls ${isDark ? 'controls-dark' : ''}`}>
       <div className="controls__title">
         Selected: {selectedPeople.length} items
       </div>

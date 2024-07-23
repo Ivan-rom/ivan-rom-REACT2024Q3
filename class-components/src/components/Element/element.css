@@ -7,6 +7,9 @@
   border: 2px solid rgb(101, 128, 168);
   border-radius: 5px;
   background-color: #569da0;
+  color: #ffffff;
+  position: relative;
+  z-index: 2;
 }
 
 .element__name {
