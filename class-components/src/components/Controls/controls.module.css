@@ -4,12 +4,12 @@
   padding: 10px;
   border-radius: 5px;
   animation: appearance 0.2s 1 ease-in-out both;
-  background-color: #2b2b2b;
-  color: #ffffff;
+  background-color: var(--dark-background);
+  color: var(--light-text);
 
   &.dark {
-    background-color: #fff;
-    color: #2b2b2b;
+    background-color: var(--light-background);
+    color: var(--dark-text);
   }
 }
 
@@ -25,16 +25,15 @@
 
 .button {
   font-size: 18px;
-  color: #fff;
 }
 
 .button {
   &.delete {
-    background-color: rgb(182, 75, 75);
+    background-color: var(--error-color);
   }
 
   &.download {
-    background-color: rgb(77, 138, 77);
+    background-color: var(--success-color);
   }
 }
 

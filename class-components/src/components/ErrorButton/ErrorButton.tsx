@@ -1,7 +1,7 @@
 import { FC, useState } from 'react';
 import classNames from 'classnames';
 
-import styles from './errorButton.module.css';
+import './errorButton.css';
 
 const ErrorButton: FC = () => {
   const [hasError, setHasError] = useState(false);
@@ -10,7 +10,7 @@ const ErrorButton: FC = () => {
 
   return (
     <button
-      className={classNames(styles['error-button'], 'button')}
+      className={classNames('button', 'error-button')}
       onClick={() => setHasError(true)}
     >
       Create error

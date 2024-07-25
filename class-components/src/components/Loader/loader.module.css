@@ -4,7 +4,7 @@
   height: 100px;
   margin: 20px auto 0;
   border-radius: 50%;
-  border: 10px solid rgb(160, 101, 168);
+  border: 10px solid var(--accent-color);
   border-top-color: transparent;
   animation: loader-spin 1s infinite linear;
 }
