@@ -2,7 +2,7 @@ import { FC } from 'react';
 import Element from '../Element/Element';
 import Pagination from '../Pagination/Pagination';
 import useAppSelector from '../../hooks/useAppSelector';
-import { useGetPeopleQuery } from '../../helpers/api';
+import { useGetPeopleQuery } from '../../store/api';
 import Loader from '../Loader/Loader';
 import { Navigate, useParams } from 'react-router-dom';
 import { NOT_FOUND_PATH } from '../../helpers/constants';

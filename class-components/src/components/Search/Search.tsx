@@ -1,4 +1,4 @@
-import { FC, useEffect } from 'react';
+import { ChangeEvent, FC, useEffect } from 'react';
 import { HOME_PAGE, LOCAL_STORAGE_SEARCH_KEY } from '../../helpers/constants';
 import useLocalStorage from '../../hooks/useLocalStorage';
 import './search.css';
@@ -25,6 +25,10 @@ const Search: FC = () => {
     dispatch(updateSearchTerm(searchTerm));
   }
 
+  function changeHandler({ target: { value } }: ChangeEvent<HTMLInputElement>) {
+    setSearchTerm(value);
+  }
+
   return (
     <form name="search-form" onSubmit={submitHandler} className="search">
       <input
@@ -32,7 +36,7 @@ const Search: FC = () => {
         name="search"
         placeholder="Search..."
         value={searchTerm}
-        onChange={({ target }) => setSearchTerm(target.value)}
+        onChange={changeHandler}
         className="search__input"
       />
       <button className="button">Search</button>

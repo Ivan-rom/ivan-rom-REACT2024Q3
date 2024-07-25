@@ -1,5 +1,5 @@
 import { configureStore } from '@reduxjs/toolkit';
-import { api } from '../helpers/api';
+import { api } from './api';
 import peopleSlice from './peopleSlice';
 
 export const store = configureStore({

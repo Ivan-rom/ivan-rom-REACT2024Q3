@@ -16,30 +16,21 @@ const peopleSlice = createSlice({
   initialState,
   reducers: {
     updateSearchTerm: (state, { payload }: { payload: string }) => {
-      return { ...state, searchTerm: payload.trim() };
+      state.searchTerm = payload.trim();
     },
 
     removeSelectedPerson: (state, { payload }: { payload: string }) => {
-      const foundPersonIndex = state.selectedPeople.findIndex(
-        (person) => person.url === payload,
+      state.selectedPeople = state.selectedPeople.filter(
+        (person) => person.url !== payload,
       );
-
-      if (foundPersonIndex === -1) return { ...state };
-
-      const newPeople = [...state.selectedPeople];
-      newPeople.splice(foundPersonIndex, 1);
-
-      return { ...state, selectedPeople: [...newPeople] };
     },
 
     addSelectedPerson: (state, { payload }: { payload: Person }) => {
-      const newPeople = [...state.selectedPeople];
-      newPeople.push(payload);
-      return { ...state, selectedPeople: [...newPeople] };
+      state.selectedPeople.push(payload);
     },
 
     clearSelectedPeople: (state) => {
-      return { ...state, selectedPeople: [] };
+      state.selectedPeople = [];
     },
   },
 });
