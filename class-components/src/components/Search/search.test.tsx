@@ -3,23 +3,15 @@ import { beforeEach, describe, expect, it } from 'vitest';
 import Search from './Search';
 import { BrowserRouter } from 'react-router-dom';
 import { LOCAL_STORAGE_SEARCH_KEY } from '../../helpers/constants';
-
-const props = {
-  currentPage: 1,
-  updateElements: () => {},
-  updateLoader: () => {},
-  setElementsCount: () => {},
-};
+import { Provider } from 'react-redux';
+import { store } from '../../store/store';
 
 const searchComponent = (
-  <BrowserRouter>
-    <Search
-      updateElements={() => {}}
-      updateLoader={props.updateLoader}
-      currentPage={props.currentPage}
-      setElementsCount={props.setElementsCount}
-    />
-  </BrowserRouter>
+  <Provider store={store}>
+    <BrowserRouter>
+      <Search />
+    </BrowserRouter>
+  </Provider>
 );
 
 describe('Search component', () => {

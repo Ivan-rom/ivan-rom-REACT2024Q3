@@ -1,69 +1,47 @@
-import { FC, useEffect } from 'react';
-import { Person } from '../../helpers/interfaces';
-import {
-  HOME_PAGE,
-  LOCAL_STORAGE_SEARCH_KEY,
-  NOT_FOUND_PATH,
-  URL,
-} from '../../helpers/constants';
-import { useNavigate } from 'react-router-dom';
-import { fetchData } from '../../helpers/api';
+import { ChangeEvent, FC, useEffect } from 'react';
+import { HOME_PAGE, LOCAL_STORAGE_SEARCH_KEY } from '../../helpers/constants';
 import useLocalStorage from '../../hooks/useLocalStorage';
+import useAppDispatch from '../../hooks/useAppDispatch';
+import { updateSearchTerm } from '../../store/peopleSlice/peopleSlice';
+import { useNavigate, useParams } from 'react-router-dom';
 
-import './search.css';
+import styles from './search.module.css';
 
-interface Props {
-  updateElements: (elements: Person[]) => void;
-  updateLoader: (isLoading: boolean) => void;
-  setElementsCount: (elementsCount: number) => void;
-  currentPage: number;
-}
-
-const Search: FC<Props> = ({
-  updateLoader,
-  updateElements,
-  setElementsCount,
-  currentPage,
-}) => {
+const Search: FC = () => {
+  const dispatch = useAppDispatch();
+  const { page, elementId } = useParams();
   const navigate = useNavigate();
+  const currentPage = page ? +page : 1;
+  const searchPage = elementId
+    ? `${HOME_PAGE}/details/${elementId}`
+    : HOME_PAGE;
   const [searchTerm, setSearchTerm] = useLocalStorage(LOCAL_STORAGE_SEARCH_KEY);
 
   useEffect(() => {
-    makeRequest();
-  }, [currentPage]);
-
-  async function makeRequest() {
-    updateLoader(true);
-
-    try {
-      const data = await fetchData(
-        `${URL}/?page=${currentPage}&search=${searchTerm.trim()}`,
-      );
-      updateElements(data.results);
-      updateLoader(false);
-      setElementsCount(data.count);
-    } catch {
-      navigate(NOT_FOUND_PATH);
-    }
-  }
+    dispatch(updateSearchTerm(searchTerm));
+  }, []);
 
   function submitHandler(e: React.FormEvent) {
     e.preventDefault();
-    // to avoid double request and reset currentPage to avoid invalid request
     localStorage.setItem(LOCAL_STORAGE_SEARCH_KEY, searchTerm.trim());
-    if (currentPage !== 1) navigate(HOME_PAGE);
-    else makeRequest();
+    // to avoid double request and reset currentPage to avoid invalid request
+    if (currentPage !== 1) navigate(searchPage);
+    dispatch(updateSearchTerm(searchTerm));
+  }
+
+  function changeHandler({ target: { value } }: ChangeEvent<HTMLInputElement>) {
+    setSearchTerm(value);
   }
 
   return (
-    <form name="search-form" onSubmit={submitHandler} className="search">
+    <form name="search-form" onSubmit={submitHandler} className={styles.search}>
       <input
         type="text"
         name="search"
         placeholder="Search..."
         value={searchTerm}
-        onChange={({ target }) => setSearchTerm(target.value)}
-        className="search__input"
+        onChange={changeHandler}
+        className={styles.input}
       />
       <button className="button">Search</button>
     </form>

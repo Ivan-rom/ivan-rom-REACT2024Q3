@@ -4,15 +4,18 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  border: 2px solid rgb(101, 128, 168);
+  border: 2px solid var(--border-color);
   border-radius: 5px;
   background-color: #569da0;
+  color: var(--light-color);
+  position: relative;
+  z-index: 2;
 }
 
-.element__name {
+.name {
   margin-bottom: 10px;
 }
 
-.element__link {
+.link {
   margin-top: auto;
 }

@@ -1,4 +1,5 @@
 import { FC, useState } from 'react';
+import classNames from 'classnames';
 
 import './errorButton.css';
 
@@ -8,7 +9,10 @@ const ErrorButton: FC = () => {
   if (hasError) throw new Error('Synthetic error');
 
   return (
-    <button className="error-button button" onClick={() => setHasError(true)}>
+    <button
+      className={classNames('button', 'error-button')}
+      onClick={() => setHasError(true)}
+    >
       Create error
     </button>
   );

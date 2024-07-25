@@ -1,26 +1,41 @@
 import { FC } from 'react';
 import Element from '../Element/Element';
 import Pagination from '../Pagination/Pagination';
+import useAppSelector from '../../hooks/useAppSelector';
+import { useGetPeopleQuery } from '../../store/api/api';
+import Loader from '../Loader/Loader';
+import { Navigate, useParams } from 'react-router-dom';
+import { NOT_FOUND_PATH } from '../../helpers/constants';
 
-import './list.css';
+import styles from './list.module.css';
 
-interface Props {
-  elements: { name: string; url: string }[];
-  elementsCount: number;
-}
+const List: FC = () => {
+  const { searchTerm } = useAppSelector((state) => state.people);
+  const { page } = useParams();
+  const currentPage = page ? +page : 1;
 
-const List: FC<Props> = ({ elements, elementsCount }) => {
-  if (elementsCount === 0) return <h2>Nothing found</h2>;
+  const { data, isError, isFetching } = useGetPeopleQuery({
+    page: currentPage,
+    searchTerm,
+  });
+
+  if (isError) return <Navigate to={NOT_FOUND_PATH} />;
+
+  if (isFetching) return <Loader />;
+
+  console.log(data);
+
+  if (!data?.results.length) return <h2>Nothing found</h2>;
 
   return (
-    <>
-      <ul className="list">
-        {elements.map((element) => (
-          <Element name={element.name} url={element.url} key={element.url} />
+    <div className={styles.list}>
+      <ul className={styles.content}>
+        {data.results.map((person) => (
+          <Element person={person} key={person.url} />
         ))}
       </ul>
-      <Pagination elementsCount={elementsCount} />
-    </>
+      <Pagination elementsCount={data.count} />
+    </div>
   );
 };
 

@@ -1,4 +1,4 @@
-export const URL = 'https://swapi.dev/api/people/';
+export const BASE_URL = 'https://swapi.dev/api';
 
 export const BASE_PATH = '/search';
 export const NOT_FOUND_PATH = '/404';

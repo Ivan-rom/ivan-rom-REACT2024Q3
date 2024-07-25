@@ -1,0 +1,47 @@
+.controls {
+  position: fixed;
+  right: 50px;
+  padding: 10px;
+  border-radius: 5px;
+  animation: appearance 0.2s 1 ease-in-out both;
+  background-color: var(--dark-background);
+  color: var(--light-text);
+
+  &.dark {
+    background-color: var(--light-background);
+    color: var(--dark-text);
+  }
+}
+
+.title {
+  margin-bottom: 10px;
+  font-size: 18px;
+}
+
+.buttons {
+  display: flex;
+  gap: 5px;
+}
+
+.button {
+  font-size: 18px;
+}
+
+.button {
+  &.delete {
+    background-color: var(--error-color);
+  }
+
+  &.download {
+    background-color: var(--success-color);
+  }
+}
+
+@keyframes appearance {
+  from {
+    bottom: -50px;
+  }
+  to {
+    bottom: 50px;
+  }
+}

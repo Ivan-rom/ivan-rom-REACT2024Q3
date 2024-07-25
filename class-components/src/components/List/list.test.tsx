@@ -1,39 +1,58 @@
-import { render, screen } from '@testing-library/react';
-import { describe, expect, it } from 'vitest';
+import { render, screen, waitFor } from '@testing-library/react';
+import { beforeEach, describe, expect, it } from 'vitest';
 import List from './List';
-import { BrowserRouter } from 'react-router-dom';
+import { BrowserRouter, Route, Routes } from 'react-router-dom';
+import { Provider } from 'react-redux';
+import { store } from '../../store/store';
+import { server } from '../../../mock/server';
+
+const component = (
+  <Provider store={store}>
+    <BrowserRouter>
+      <Routes>
+        <Route path="/search/:page?" element={<List />} />
+      </Routes>
+    </BrowserRouter>
+  </Provider>
+);
 
 describe('List component', () => {
-  const messageForEmptyList = 'Nothing found';
-
-  it('renders an appropriate message is displayed if no cards are present', () => {
-    render(<List elements={[]} elementsCount={0} />);
-    expect(screen.getByText(messageForEmptyList)).toBeInTheDocument();
+  beforeEach(() => {
+    server.resetHandlers();
+    const initialPath = '/search/1';
+    window.history.pushState({}, 'test page', initialPath);
   });
 
-  it('renders the specified number of cards', () => {
-    function createElements(length: number) {
-      const elements = [];
+  it('renders loading component', () => {
+    render(component);
+    expect(screen.getByTestId('loader')).toBeInTheDocument();
+  });
 
-      for (let i = 0; i < length; i++) {
-        elements.push({ name: `test name ${i}`, url: `test/url/${i}/` });
-      }
+  // BUG: server.use() or BeforeEach(() => server.resetHandlers()) don't work
 
-      return elements;
-    }
+  // it('renders an appropriate message is displayed if no cards are present', async () => {
+  //   server.use(
+  //     http.get(`${BASE_URL}/people/`, () => {
+  //       return HttpResponse.json({ count: 0, results: [] });
+  //     }),
+  //   );
+  //   const messageForEmptyList = 'Nothing found';
 
-    const testLength = 20;
+  //   const initialPath = '/search/1';
+  //   window.history.pushState({}, 'test page', initialPath);
 
-    const elements = createElements(testLength);
+  //   render(component);
 
-    render(<List elements={elements} elementsCount={testLength} />, {
-      wrapper: BrowserRouter,
+  //   await waitFor(() => {
+  //     expect(screen.getByText(messageForEmptyList)).toBeInTheDocument();
+  //   });
+  // });
+
+  it('renders data from server', async () => {
+    render(component);
+
+    await waitFor(() => {
+      expect(screen.getByText('test name')).toBeInTheDocument();
     });
-
-    for (let i = 0; i < elements.length; i++) {
-      expect(
-        screen.getByText(new RegExp(`${elements[i].name}$`, 'i')),
-      ).toBeInTheDocument();
-    }
   });
 });

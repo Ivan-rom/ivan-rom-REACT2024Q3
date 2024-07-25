@@ -1,5 +1,16 @@
 @import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap');
 
+:root {
+  --light-text: #ffffff;
+  --dark-text: #000000;
+  --light-background: #ffffff;
+  --dark-background: #2b2b2b;
+  --accent-color: #8168aa;
+  --success-color: rgb(77, 138, 77);
+  --error-color: rgb(182, 75, 75);
+  --border-color: rgb(101, 128, 168);
+}
+
 * {
   box-sizing: border-box;
   margin: 0;
@@ -7,11 +18,13 @@
 }
 
 body {
-  background-color: #2b2b2b;
-  color: #fff;
   font-family: Roboto, sans-serif;
-  max-width: 1440px;
-  margin: 0 auto;
+  min-height: 100vh;
+}
+
+body.dark {
+  background-color: var(--dark-background);
+  color: var(--light-text);
 }
 
 ul {
@@ -30,15 +43,32 @@ button {
   color: inherit;
 }
 
+.container {
+  max-width: 1440px;
+  margin: 0 auto;
+  padding: 0 20px;
+}
+
+.view {
+  background-color: var(--light-background);
+  color: var(--dark-text);
+}
+
+.view-dark {
+  background-color: var(--dark-background);
+  color: var(--light-text);
+}
+
 .disabled {
   opacity: 0.7;
   pointer-events: none;
 }
 
 .button {
-  background-color: #8168aa;
+  background-color: var(--accent-color);
   padding: 5px;
   border-radius: 5px;
+  color: var(--light-text);
 
   &:hover {
     filter: brightness(1.1);
