@@ -12,10 +12,10 @@
   z-index: 2;
 }
 
-.element__name {
+.name {
   margin-bottom: 10px;
 }
 
-.element__link {
+.link {
   margin-top: auto;
 }

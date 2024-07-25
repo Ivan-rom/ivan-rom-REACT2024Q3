@@ -4,8 +4,9 @@ import { BASE_PATH, NOT_FOUND_PATH } from '../../helpers/constants';
 import Loader from '../../components/Loader/Loader';
 import Details from '../../components/Details/Details';
 import { useGetPersonQuery } from '../../store/api';
+import classNames from 'classnames';
 
-import './elementView.css';
+import styles from './elementView.module.css';
 
 const ElementView: FC = () => {
   const { elementId, page } = useParams();
@@ -21,12 +22,12 @@ const ElementView: FC = () => {
   if (isLoading) return <Loader />;
 
   return (
-    <div className="element-view">
+    <div className={styles['element-view']}>
       <Details data={data!} />
       <button
         data-testid="close-button"
         onClick={closeDetails}
-        className="element-view__button button"
+        className={classNames('button', styles.button)}
       >
         X
       </button>

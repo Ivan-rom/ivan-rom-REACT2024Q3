@@ -8,8 +8,9 @@ import {
   removeSelectedPerson,
 } from '../../store/peopleSlice';
 import { Person } from '../../helpers/interfaces';
+import classNames from 'classnames';
 
-import './element.css';
+import styles from './element.module.css';
 
 interface Props {
   person: Person;
@@ -34,10 +35,10 @@ const Element: FC<Props> = ({ person }) => {
   }
 
   return (
-    <li className="element">
-      <div className="element__name">{name}</div>
+    <li className={styles.element}>
+      <div className={styles.name}>{name}</div>
       <input type="checkbox" onChange={changeHandler} checked={isSelected} />
-      <Link to={`details/${id}`} className="element__link button">
+      <Link to={`details/${id}`} className={classNames(styles.link, 'button')}>
         More details
       </Link>
     </li>

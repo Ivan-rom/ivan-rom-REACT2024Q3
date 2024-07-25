@@ -4,8 +4,9 @@ import useAppDispatch from '../../hooks/useAppDispatch';
 import { clearSelectedPeople } from '../../store/peopleSlice';
 import { ThemeContext } from '../../helpers/context';
 import { ThemeContextType } from '../../helpers/interfaces';
+import classNames from 'classnames';
 
-import './controls.css';
+import styles from './controls.module.css';
 
 const Controls: FC = () => {
   const dispatch = useAppDispatch();
@@ -16,22 +17,27 @@ const Controls: FC = () => {
     dispatch(clearSelectedPeople());
   }
 
+  const controlsStyles = {
+    [styles.controls]: true,
+    [styles.dark]: isDark,
+  };
+
   return (
-    <div className={`controls ${isDark ? 'controls-dark' : ''}`}>
-      <div className="controls__title">
+    <div className={classNames(controlsStyles)}>
+      <div className={styles.title}>
         Selected: {selectedPeople.length} items
       </div>
-      <div className="controls__buttons">
+      <div className={styles.buttons}>
         <button
           onClick={unselectAllHandler}
-          className="button controls__button button-delete"
+          className={classNames('button', styles.button, styles.delete)}
         >
           Unselect all
         </button>
         <a
           href={`data:text/plain;charset=utf-8, ${JSON.stringify(selectedPeople, null, ' ')}`}
           download={`${selectedPeople.length}_people.csv`}
-          className="button controls__button button-download"
+          className={classNames('button', styles.button, styles.download)}
         >
           Download
         </a>

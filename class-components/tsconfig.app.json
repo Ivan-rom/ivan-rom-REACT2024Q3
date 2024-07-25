@@ -27,5 +27,5 @@
     /* Need for vitest */
     "types": ["@testing-library/jest-dom"]
   },
-  "include": ["src", "vitest.config.ts", "mock"]
+  "include": ["src", "vitest.config.ts", "mock", "vite-env.d.ts"]
 }

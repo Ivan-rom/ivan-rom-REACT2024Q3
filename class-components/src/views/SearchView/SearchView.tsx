@@ -9,8 +9,9 @@ import Controls from '../../components/Controls/Controls';
 import ThemeControls from '../../components/ThemeControls/ThemeControls';
 import { ThemeContextType } from '../../helpers/interfaces';
 import { ThemeContext } from '../../helpers/context';
+import classNames from 'classnames';
 
-import './searchView.css';
+import styles from './searchView.module.css';
 
 const SearchView: FunctionComponent = () => {
   const { page, elementId } = useParams();
@@ -27,11 +28,15 @@ const SearchView: FunctionComponent = () => {
     navigate(`${BASE_PATH}/${currentPage}`);
   }
 
+  const viewStyles = {
+    'view-dark': isDark,
+  };
+
   return (
-    <div className={`search-view view ${isDark ? 'view-dark' : ''}`}>
-      <div className="search-view__header header">
+    <div className={classNames('view', viewStyles)}>
+      <div className={styles.header}>
         <div className="container">
-          <div className="header__wrapper">
+          <div className={styles.wrapper}>
             <ErrorButton />
             <Search />
             <ThemeControls />
@@ -40,7 +45,7 @@ const SearchView: FunctionComponent = () => {
       </div>
 
       <div className="container">
-        <div className="search-view__content">
+        <div className={styles.content}>
           <List />
           <Outlet />
         </div>
@@ -49,7 +54,7 @@ const SearchView: FunctionComponent = () => {
       {elementId && (
         <button
           onClick={closeDetails}
-          className="search-view__close-button"
+          className={styles['close-button']}
           data-testid="close-button"
         />
       )}

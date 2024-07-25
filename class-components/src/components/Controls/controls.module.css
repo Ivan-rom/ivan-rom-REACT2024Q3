@@ -7,33 +7,35 @@
   background-color: #2b2b2b;
   color: #ffffff;
 
-  &.controls-dark {
+  &.dark {
     background-color: #fff;
     color: #2b2b2b;
   }
 }
 
-.controls__title {
+.title {
   margin-bottom: 10px;
   font-size: 18px;
 }
 
-.controls__buttons {
+.buttons {
   display: flex;
   gap: 5px;
 }
 
-.controls__button {
+.button {
   font-size: 18px;
   color: #fff;
 }
 
-.controls__button.button-delete {
-  background-color: rgb(182, 75, 75);
-}
+.button {
+  &.delete {
+    background-color: rgb(182, 75, 75);
+  }
 
-.controls__button.button-download {
-  background-color: rgb(77, 138, 77);
+  &.download {
+    background-color: rgb(77, 138, 77);
+  }
 }
 
 @keyframes appearance {

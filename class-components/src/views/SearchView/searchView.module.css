@@ -1,27 +1,24 @@
-.search-view__content {
+.content {
   display: flex;
   gap: 20px;
   position: relative;
+  padding: 15px 0;
 }
 
-.search-view__header {
+.header {
   position: relative;
   z-index: 2;
   padding: 20px 0;
   background-color: inherit;
 }
 
-.header__wrapper {
+.wrapper {
   display: flex;
   justify-content: space-between;
   align-items: center;
 }
 
-.search-view__content {
-  padding: 15px 0;
-}
-
-.search-view__close-button {
+.close-button {
   position: absolute;
   inset: 0;
 }

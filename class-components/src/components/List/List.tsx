@@ -7,7 +7,7 @@ import Loader from '../Loader/Loader';
 import { Navigate, useParams } from 'react-router-dom';
 import { NOT_FOUND_PATH } from '../../helpers/constants';
 
-import './list.css';
+import styles from './list.module.css';
 
 const List: FC = () => {
   const { searchTerm } = useAppSelector((state) => state.people);
@@ -26,8 +26,8 @@ const List: FC = () => {
   if (!data?.results.length) return <h2>Nothing found</h2>;
 
   return (
-    <div className="list">
-      <ul className="list-content">
+    <div className={styles.list}>
+      <ul className={styles.content}>
         {data.results.map((person) => (
           <Element person={person} key={person.url} />
         ))}

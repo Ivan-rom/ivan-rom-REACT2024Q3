@@ -3,7 +3,7 @@
   flex-grow: 1;
 }
 
-.list-content {
+.content {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
   gap: 20px;

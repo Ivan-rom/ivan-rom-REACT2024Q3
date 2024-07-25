@@ -1,10 +1,11 @@
 import { ChangeEvent, FC, useEffect } from 'react';
 import { HOME_PAGE, LOCAL_STORAGE_SEARCH_KEY } from '../../helpers/constants';
 import useLocalStorage from '../../hooks/useLocalStorage';
-import './search.css';
 import useAppDispatch from '../../hooks/useAppDispatch';
 import { updateSearchTerm } from '../../store/peopleSlice';
 import { useNavigate, useParams } from 'react-router-dom';
+
+import styles from './search.module.css';
 
 const Search: FC = () => {
   const dispatch = useAppDispatch();
@@ -30,14 +31,14 @@ const Search: FC = () => {
   }
 
   return (
-    <form name="search-form" onSubmit={submitHandler} className="search">
+    <form name="search-form" onSubmit={submitHandler} className={styles.search}>
       <input
         type="text"
         name="search"
         placeholder="Search..."
         value={searchTerm}
         onChange={changeHandler}
-        className="search__input"
+        className={styles.input}
       />
       <button className="button">Search</button>
     </form>

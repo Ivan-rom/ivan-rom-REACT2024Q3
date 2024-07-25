@@ -2,8 +2,6 @@ import { FC, useContext } from 'react';
 import { ThemeContextType } from '../../helpers/interfaces';
 import { ThemeContext } from '../../helpers/context';
 
-import './themeControls.css';
-
 enum Icons {
   sun = 'sun',
   moon = 'moon',
@@ -18,11 +16,9 @@ const ThemeControls: FC = () => {
   }
 
   return (
-    <div className="theme-controls">
-      <button onClick={changeTheme}>
-        <img src={`/${icon}.svg`} alt={`${icon} icon`} />
-      </button>
-    </div>
+    <button onClick={changeTheme}>
+      <img src={`/${icon}.svg`} alt={`${icon} icon`} />
+    </button>
   );
 };
 
