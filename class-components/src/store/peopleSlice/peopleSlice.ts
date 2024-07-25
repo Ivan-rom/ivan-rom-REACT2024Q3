@@ -1,5 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { Person } from '../helpers/interfaces';
+import { Person } from '../../helpers/interfaces';
 
 type State = {
   searchTerm: string;

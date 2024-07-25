@@ -2,7 +2,7 @@ import { FC } from 'react';
 import Element from '../Element/Element';
 import Pagination from '../Pagination/Pagination';
 import useAppSelector from '../../hooks/useAppSelector';
-import { useGetPeopleQuery } from '../../store/api';
+import { useGetPeopleQuery } from '../../store/api/api';
 import Loader from '../Loader/Loader';
 import { Navigate, useParams } from 'react-router-dom';
 import { NOT_FOUND_PATH } from '../../helpers/constants';
@@ -22,6 +22,8 @@ const List: FC = () => {
   if (isError) return <Navigate to={NOT_FOUND_PATH} />;
 
   if (isFetching) return <Loader />;
+
+  console.log(data);
 
   if (!data?.results.length) return <h2>Nothing found</h2>;
 

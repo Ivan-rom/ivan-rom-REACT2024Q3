@@ -3,7 +3,7 @@ import { Navigate, useNavigate, useParams } from 'react-router-dom';
 import { BASE_PATH, NOT_FOUND_PATH } from '../../helpers/constants';
 import Loader from '../../components/Loader/Loader';
 import Details from '../../components/Details/Details';
-import { useGetPersonQuery } from '../../store/api';
+import { useGetPersonQuery } from '../../store/api/api';
 import classNames from 'classnames';
 
 import styles from './elementView.module.css';

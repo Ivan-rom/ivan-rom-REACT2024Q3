@@ -1,9 +1,10 @@
-import { render, screen } from '@testing-library/react';
+import { render, screen, waitFor } from '@testing-library/react';
 import { beforeEach, describe, expect, it } from 'vitest';
 import List from './List';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import { Provider } from 'react-redux';
 import { store } from '../../store/store';
+import { server } from '../../../mock/server';
 
 const component = (
   <Provider store={store}>
@@ -17,6 +18,7 @@ const component = (
 
 describe('List component', () => {
   beforeEach(() => {
+    server.resetHandlers();
     const initialPath = '/search/1';
     window.history.pushState({}, 'test page', initialPath);
   });
@@ -29,12 +31,12 @@ describe('List component', () => {
   // BUG: server.use() or BeforeEach(() => server.resetHandlers()) don't work
 
   // it('renders an appropriate message is displayed if no cards are present', async () => {
-  //   const messageForEmptyList = 'Nothing found';
   //   server.use(
   //     http.get(`${BASE_URL}/people/`, () => {
   //       return HttpResponse.json({ count: 0, results: [] });
   //     }),
   //   );
+  //   const messageForEmptyList = 'Nothing found';
 
   //   const initialPath = '/search/1';
   //   window.history.pushState({}, 'test page', initialPath);
@@ -46,35 +48,11 @@ describe('List component', () => {
   //   });
   // });
 
-  // it('renders the specified number of cards', async () => {
-  //   function createElements(length: number) {
-  //     const elements = [];
+  it('renders data from server', async () => {
+    render(component);
 
-  //     for (let i = 0; i < length; i++) {
-  //       elements.push({ name: `test name ${i}`, url: `test/url/${i}/` });
-  //     }
-
-  //     return elements;
-  //   }
-
-  //   const testLength = 20;
-
-  //   const elements = createElements(testLength);
-
-  //   server.use(
-  //     http.get(`${BASE_URL}/people/`, () => {
-  //       return HttpResponse.json({ count: testLength, results: elements });
-  //     }),
-  //   );
-
-  //   render(component);
-
-  //   await waitFor(() => {
-  //     for (let i = 0; i < elements.length; i++) {
-  //       expect(
-  //         screen.getByText(new RegExp(`${elements[i].name}$`, 'i')),
-  //       ).toBeInTheDocument();
-  //     }
-  //   });
-  // });
+    await waitFor(() => {
+      expect(screen.getByText('test name')).toBeInTheDocument();
+    });
+  });
 });

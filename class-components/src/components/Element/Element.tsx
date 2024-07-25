@@ -6,7 +6,7 @@ import useAppDispatch from '../../hooks/useAppDispatch';
 import {
   addSelectedPerson,
   removeSelectedPerson,
-} from '../../store/peopleSlice';
+} from '../../store/peopleSlice/peopleSlice';
 import { Person } from '../../helpers/interfaces';
 import classNames from 'classnames';
 

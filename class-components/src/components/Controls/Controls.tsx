@@ -1,7 +1,7 @@
 import { FC, useContext } from 'react';
 import useAppSelector from '../../hooks/useAppSelector';
 import useAppDispatch from '../../hooks/useAppDispatch';
-import { clearSelectedPeople } from '../../store/peopleSlice';
+import { clearSelectedPeople } from '../../store/peopleSlice/peopleSlice';
 import { ThemeContext } from '../../helpers/context';
 import { ThemeContextType } from '../../helpers/interfaces';
 import classNames from 'classnames';

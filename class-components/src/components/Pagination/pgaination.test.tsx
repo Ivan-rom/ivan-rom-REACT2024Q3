@@ -32,4 +32,34 @@ describe('Pagination component', () => {
 
     expect(window.location.pathname).toBe('/search/1');
   });
+
+  it('changes the search page without closing details when buttons are clicked', async () => {
+    const detailsPage = '/details/1';
+
+    window.history.pushState({}, 'Test page', `${HOME_PAGE}${detailsPage}`);
+
+    render(
+      <Routes>
+        <Route
+          path="/search/:page"
+          element={<Pagination elementsCount={elementsCount} />}
+        >
+          <Route path="details/:elementId" element={<div>Details view</div>} />
+        </Route>
+      </Routes>,
+      { wrapper: BrowserRouter },
+    );
+    const nextButton = screen.getByText('next');
+    const prevButton = screen.getByText('prev');
+
+    expect(window.location.pathname).toBe(`/search/1${detailsPage}`);
+
+    fireEvent.click(nextButton);
+
+    expect(window.location.pathname).toBe(`/search/2${detailsPage}`);
+
+    fireEvent.click(prevButton);
+
+    expect(window.location.pathname).toBe(`/search/1${detailsPage}`);
+  });
 });
