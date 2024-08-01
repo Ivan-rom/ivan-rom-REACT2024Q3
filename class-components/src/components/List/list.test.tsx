@@ -28,26 +28,6 @@ describe('List component', () => {
     expect(screen.getByTestId('loader')).toBeInTheDocument();
   });
 
-  // BUG: server.use() or BeforeEach(() => server.resetHandlers()) don't work
-
-  // it('renders an appropriate message is displayed if no cards are present', async () => {
-  //   server.use(
-  //     http.get(`${BASE_URL}/people/`, () => {
-  //       return HttpResponse.json({ count: 0, results: [] });
-  //     }),
-  //   );
-  //   const messageForEmptyList = 'Nothing found';
-
-  //   const initialPath = '/search/1';
-  //   window.history.pushState({}, 'test page', initialPath);
-
-  //   render(component);
-
-  //   await waitFor(() => {
-  //     expect(screen.getByText(messageForEmptyList)).toBeInTheDocument();
-  //   });
-  // });
-
   it('renders data from server', async () => {
     render(component);
 

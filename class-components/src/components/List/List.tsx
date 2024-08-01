@@ -23,8 +23,6 @@ const List: FC = () => {
 
   if (isFetching) return <Loader />;
 
-  console.log(data);
-
   if (!data?.results.length) return <h2>Nothing found</h2>;
 
   return (
