@@ -46,7 +46,6 @@ const Controls: FC = () => {
 
   return (
     <div className={classNames(controlsStyles)}>
-      <button onClick={getCSVContent}>log</button>
       <div className={styles.title}>
         Selected: {selectedPeople.length} items
       </div>
