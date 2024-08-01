@@ -22,8 +22,31 @@ const Controls: FC = () => {
     [styles.dark]: isDark,
   };
 
+  function getCSVContent() {
+    const titleKeys = Object.keys(selectedPeople[0]);
+
+    const refinedData = [];
+    refinedData.push(titleKeys);
+
+    selectedPeople.forEach((person) => {
+      refinedData.push(Object.values(person));
+    });
+
+    let csvContent = '';
+
+    refinedData.forEach((row) => {
+      csvContent += row.join(';') + '\n';
+    });
+
+    const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8,' });
+    const objUrl = URL.createObjectURL(blob);
+
+    return objUrl;
+  }
+
   return (
     <div className={classNames(controlsStyles)}>
+      <button onClick={getCSVContent}>log</button>
       <div className={styles.title}>
         Selected: {selectedPeople.length} items
       </div>
@@ -35,7 +58,7 @@ const Controls: FC = () => {
           Unselect all
         </button>
         <a
-          href={`data:text/plain;charset=utf-8, ${JSON.stringify(selectedPeople, null, ' ')}`}
+          href={getCSVContent()}
           download={`${selectedPeople.length}_people.csv`}
           className={classNames('button', styles.button, styles.download)}
         >
