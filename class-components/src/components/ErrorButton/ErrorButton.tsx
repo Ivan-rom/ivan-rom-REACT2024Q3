@@ -1,7 +1,7 @@
 import { FC, useState } from 'react';
 import classNames from 'classnames';
 
-import './errorButton.css';
+import './errorButton.module.css';
 
 const ErrorButton: FC = () => {
   const [hasError, setHasError] = useState(false);

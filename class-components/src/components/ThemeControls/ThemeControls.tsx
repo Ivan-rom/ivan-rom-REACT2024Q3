@@ -1,6 +1,6 @@
 import { FC, useContext } from 'react';
-import { ThemeContextType } from '../../helpers/interfaces';
-import { ThemeContext } from '../../helpers/context';
+import { ThemeContextType } from '@/helpers/interfaces';
+import { ThemeContext } from '@/helpers/context';
 
 enum Icons {
   sun = 'sun',

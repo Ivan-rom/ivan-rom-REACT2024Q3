@@ -1,6 +1,7 @@
 import { FC } from 'react';
-import { Link, useParams } from 'react-router-dom';
 import classNames from 'classnames';
+import { useParams } from 'next/navigation';
+import Link from 'next/link';
 
 import styles from './pagination.module.css';
 
@@ -34,11 +35,11 @@ const Pagination: FC<Props> = ({ elementsCount }) => {
 
   return (
     <div className={styles.pagination}>
-      <Link to={prevLink} className={classNames(prevStyles, 'button')}>
+      <Link href={prevLink} className={classNames(prevStyles, 'button')}>
         prev
       </Link>
       <div>{currentPage}</div>
-      <Link to={nextLink} className={classNames(nextStyles, 'button')}>
+      <Link href={nextLink} className={classNames(nextStyles, 'button')}>
         next
       </Link>
     </div>

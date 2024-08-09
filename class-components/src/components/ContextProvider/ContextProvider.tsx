@@ -1,5 +1,5 @@
 import { FC, ReactNode, useEffect, useState } from 'react';
-import { ThemeContext } from '../../helpers/context';
+import { ThemeContext } from '@/helpers/context';
 
 type Props = {
   children: ReactNode;

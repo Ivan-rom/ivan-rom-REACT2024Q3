@@ -1,8 +1,8 @@
 import { ChangeEvent, FC, useMemo } from 'react';
-import { Link } from 'react-router-dom';
+import Link from 'next/link';
 import { getElementId } from '../../helpers/getElementId';
-import useAppSelector from '../../hooks/useAppSelector';
-import useAppDispatch from '../../hooks/useAppDispatch';
+import { useAppSelector } from '../../hooks/useAppSelector';
+import { useAppDispatch } from '../../hooks/useAppDispatch';
 import {
   addSelectedPerson,
   removeSelectedPerson,
@@ -11,6 +11,8 @@ import { Person } from '../../helpers/interfaces';
 import classNames from 'classnames';
 
 import styles from './element.module.css';
+import { BASE_PATH } from '@/helpers/constants';
+import { useParams } from 'next/navigation';
 
 interface Props {
   person: Person;
@@ -18,6 +20,7 @@ interface Props {
 
 const Element: FC<Props> = ({ person }) => {
   const { url, name } = person;
+  const { page } = useParams();
   const dispatch = useAppDispatch();
   const { selectedPeople } = useAppSelector((state) => state.people);
   const isSelected = useMemo(
@@ -38,7 +41,10 @@ const Element: FC<Props> = ({ person }) => {
     <li className={styles.element}>
       <div className={styles.name}>{name}</div>
       <input type="checkbox" onChange={changeHandler} checked={isSelected} />
-      <Link to={`details/${id}`} className={classNames(styles.link, 'button')}>
+      <Link
+        href={`${BASE_PATH}/${page}/details/${id}`}
+        className={classNames(styles.link, 'button')}
+      >
         More details
       </Link>
     </li>

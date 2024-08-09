@@ -1,7 +1,13 @@
 import { useEffect, useRef, useState } from 'react';
 
-export default function useLocalStorage(itemName: string) {
-  const [data, setData] = useState(localStorage.getItem(itemName) || '');
+function getSavedValue(key: string, initialValue: string) {
+  if (typeof window === 'undefined') return initialValue;
+
+  return localStorage.getItem(key) || '';
+}
+
+export default function useLocalStorage(itemName: string, initialValue = '') {
+  const [data, setData] = useState(() => getSavedValue(itemName, initialValue));
   const dataRef = useRef('');
 
   useEffect(() => {
