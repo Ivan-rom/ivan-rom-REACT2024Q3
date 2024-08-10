@@ -9,10 +9,10 @@ import {
 } from '../../store/peopleSlice/peopleSlice';
 import { Person } from '../../helpers/interfaces';
 import classNames from 'classnames';
+import { useRouter } from 'next/router';
+import { BASE_PATH } from '@/helpers/constants';
 
 import styles from './element.module.css';
-import { BASE_PATH } from '@/helpers/constants';
-import { useParams } from 'next/navigation';
 
 interface Props {
   person: Person;
@@ -20,7 +20,8 @@ interface Props {
 
 const Element: FC<Props> = ({ person }) => {
   const { url, name } = person;
-  const { page } = useParams();
+  const router = useRouter();
+  const { page } = router.query;
   const dispatch = useAppDispatch();
   const { selectedPeople } = useAppSelector((state) => state.people);
   const isSelected = useMemo(

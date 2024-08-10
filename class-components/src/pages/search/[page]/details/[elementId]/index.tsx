@@ -54,7 +54,7 @@ const ElementView: FC = () => {
       <div className={styles['element-view']}>
         <Details data={data!} />
         <button
-          data-testid="close-button"
+          data-testid="details-close-button"
           onClick={closeDetails}
           className={classNames('button', styles.button)}
         >

@@ -16,7 +16,7 @@ import { wrapper } from '@/store/store';
 import { getPeople, getRunningQueriesThunk } from '@/store/api/api';
 
 type Props = {
-  children: ReactNode;
+  children?: ReactNode;
 };
 
 export const getServerSideProps = wrapper.getServerSideProps(

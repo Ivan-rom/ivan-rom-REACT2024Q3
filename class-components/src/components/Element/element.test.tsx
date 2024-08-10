@@ -1,9 +1,12 @@
 import { render, screen } from '@testing-library/react';
 import { describe, expect, it } from 'vitest';
 import Element from './Element';
-import { BrowserRouter } from 'react-router-dom';
 import { Provider } from 'react-redux';
-import { store } from '../../store/store';
+import { makeStore } from '../../store/store';
+import { RouterContext } from 'next/dist/shared/lib/router-context.shared-runtime';
+import { createMockRouter } from '../../../mock/createMockRouter';
+
+const store = makeStore();
 
 describe('Element component', () => {
   it('renders the relevant card data', () => {
@@ -21,12 +24,14 @@ describe('Element component', () => {
 
     const detailsButtonText = 'More details';
 
+    const router = createMockRouter({ query: { page: '1' } });
+
     render(
-      <Provider store={store}>
-        <BrowserRouter>
+      <RouterContext.Provider value={router}>
+        <Provider store={store}>
           <Element person={testData} />
-        </BrowserRouter>
-      </Provider>,
+        </Provider>
+      </RouterContext.Provider>,
     );
 
     expect(screen.getByText(testData.name)).toBeInTheDocument();

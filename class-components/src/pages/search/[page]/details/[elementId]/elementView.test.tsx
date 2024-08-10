@@ -1,23 +1,26 @@
 import { fireEvent, render, screen, waitFor } from '@testing-library/react';
-import { beforeEach, describe, expect, it } from 'vitest';
-import ElementView from './ElementView';
-import { BrowserRouter, Route, Routes } from 'react-router-dom';
-import { HOME_PAGE } from '../../helpers/constants';
+import { beforeEach, describe, expect, it, vi } from 'vitest';
+import ElementView from './index';
+import { HOME_PAGE } from '@/helpers/constants';
 import { Provider } from 'react-redux';
-import { store } from '../../store/store';
-import { mockedPerson } from '../../../mock/mockedResponses';
+import { makeStore } from '@/store/store';
+import { mockedPerson } from '@/../mock/mockedResponses';
+import ContextProvider from '@/components/ContextProvider/ContextProvider';
+import { RouterContext } from 'next/dist/shared/lib/router-context.shared-runtime';
+import { createMockRouter } from '../../../../../../mock/createMockRouter';
+
+const store = makeStore();
+
+const router = createMockRouter({ query: { page: '1' } });
 
 const component = (
-  <Provider store={store}>
-    <BrowserRouter>
-      <Routes>
-        <Route
-          path={`/search/:page/details/:elementId`}
-          element={<ElementView />}
-        />
-      </Routes>
-    </BrowserRouter>
-  </Provider>
+  <RouterContext.Provider value={router}>
+    <ContextProvider>
+      <Provider store={store}>
+        <ElementView />
+      </Provider>
+    </ContextProvider>
+  </RouterContext.Provider>
 );
 
 const initialPagePath = `${HOME_PAGE}/details/1`;
@@ -38,9 +41,9 @@ describe('Element view component', () => {
 
     await waitFor(() => {
       expect(
-        screen.getByText(new RegExp(`${mockedPerson.name}`, 'i')),
+        screen.getByText(new RegExp(`name: ${mockedPerson.name}`, 'i')),
       ).toBeInTheDocument();
-      expect(screen.getByRole('button')).toBeInTheDocument();
+      expect(screen.getByTestId('details-close-button')).toBeInTheDocument();
     });
   });
 
@@ -48,13 +51,13 @@ describe('Element view component', () => {
     render(component);
 
     await waitFor(() => {
-      const closeButton = screen.getByTestId('close-button');
+      const closeButton = screen.getByTestId('details-close-button');
 
-      expect(window.location.pathname).toBe(initialPagePath);
+      vi.spyOn(router, 'push');
 
       fireEvent.click(closeButton);
 
-      expect(window.location.pathname).toBe(HOME_PAGE);
+      expect(router.push).toHaveBeenCalledWith(HOME_PAGE);
     });
   });
 });

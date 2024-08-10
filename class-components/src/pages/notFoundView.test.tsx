@@ -1,12 +1,19 @@
 import { fireEvent, render, screen } from '@testing-library/react';
 import { describe, expect, it } from 'vitest';
-import NotFoundView from './NotFoundView';
-import { BrowserRouter } from 'react-router-dom';
-import { HOME_PAGE, NOT_FOUND_PATH } from '../../helpers/constants';
+import NotFoundView from './404';
+import { HOME_PAGE, NOT_FOUND_PATH } from '@/helpers/constants';
+import { RouterContext } from 'next/dist/shared/lib/router-context.shared-runtime';
+import { createMockRouter } from '../../mock/createMockRouter';
 
 describe('Not Found page', () => {
   it('renders content', () => {
-    render(<NotFoundView />, { wrapper: BrowserRouter });
+    const router = createMockRouter({});
+
+    render(
+      <RouterContext.Provider value={router}>
+        <NotFoundView />
+      </RouterContext.Provider>,
+    );
 
     expect(screen.getByText('404')).toBeInTheDocument();
     expect(screen.getByRole('link')).toBeInTheDocument();
@@ -15,14 +22,22 @@ describe('Not Found page', () => {
   it('button on page should redirect on home page', () => {
     window.history.pushState({}, 'Test page', NOT_FOUND_PATH);
 
-    render(<NotFoundView />, { wrapper: BrowserRouter });
+    const router = createMockRouter({});
 
-    expect(location.pathname).toBe(NOT_FOUND_PATH);
+    render(
+      <RouterContext.Provider value={router}>
+        <NotFoundView />
+      </RouterContext.Provider>,
+    );
 
     const button = screen.getByRole('link');
 
     fireEvent.click(button);
 
-    expect(location.pathname).toBe(HOME_PAGE);
+    expect(router.push).toBeCalledWith(HOME_PAGE, HOME_PAGE, {
+      locale: undefined,
+      scroll: true,
+      shallow: undefined,
+    });
   });
 });

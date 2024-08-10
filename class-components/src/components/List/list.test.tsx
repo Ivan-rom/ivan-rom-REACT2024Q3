@@ -1,19 +1,20 @@
 import { render, screen, waitFor } from '@testing-library/react';
 import { beforeEach, describe, expect, it } from 'vitest';
 import List from './List';
-import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import { Provider } from 'react-redux';
-import { store } from '../../store/store';
+import { makeStore } from '../../store/store';
 import { server } from '../../../mock/server';
+import { RouterContext } from 'next/dist/shared/lib/router-context.shared-runtime';
+import { createMockRouter } from '../../../mock/createMockRouter';
+
+const store = makeStore();
 
 const component = (
-  <Provider store={store}>
-    <BrowserRouter>
-      <Routes>
-        <Route path="/search/:page?" element={<List />} />
-      </Routes>
-    </BrowserRouter>
-  </Provider>
+  <RouterContext.Provider value={createMockRouter({})}>
+    <Provider store={store}>
+      <List />
+    </Provider>
+  </RouterContext.Provider>
 );
 
 describe('List component', () => {

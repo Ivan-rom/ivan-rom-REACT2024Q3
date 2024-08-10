@@ -1,8 +1,8 @@
 import { ChangeEvent, FC, useEffect } from 'react';
-import { HOME_PAGE, LOCAL_STORAGE_SEARCH_KEY } from '../../helpers/constants';
-import useLocalStorage from '../../hooks/useLocalStorage';
-import { useAppDispatch } from '../../hooks/useAppDispatch';
-import { updateSearchTerm } from '../../store/peopleSlice/peopleSlice';
+import { HOME_PAGE, LOCAL_STORAGE_SEARCH_KEY } from '@/helpers/constants';
+import useLocalStorage from '@/hooks/useLocalStorage';
+import { useAppDispatch } from '@/hooks/useAppDispatch';
+import { updateSearchTerm } from '@/store/peopleSlice/peopleSlice';
 import { useRouter } from 'next/router';
 
 import styles from './search.module.css';

@@ -1,6 +1,6 @@
 import { FC } from 'react';
 import classNames from 'classnames';
-import { useParams } from 'next/navigation';
+import { useRouter } from 'next/router';
 import Link from 'next/link';
 
 import styles from './pagination.module.css';
@@ -12,7 +12,8 @@ interface Props {
 }
 
 const Pagination: FC<Props> = ({ elementsCount }) => {
-  const { page, elementId } = useParams();
+  const { query } = useRouter();
+  const { page, elementId } = query;
   const currentPage = +page!;
 
   const totalPages = Math.ceil(elementsCount / elementsPerPage);
