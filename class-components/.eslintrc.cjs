@@ -8,7 +8,7 @@ module.exports = {
     'plugin:react-hooks/recommended',
     'plugin:prettier/recommended',
   ],
-  ignorePatterns: ['dist', '.eslintrc.cjs', '**/*.css', 'public/'],
+  ignorePatterns: ['dist', '.eslintrc.cjs', '**/*.css', 'public/', '*.ico'],
   parser: '@typescript-eslint/parser',
   plugins: [
     'react',

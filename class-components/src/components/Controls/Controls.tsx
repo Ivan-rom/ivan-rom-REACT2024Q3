@@ -1,3 +1,5 @@
+'use client';
+
 import { FC, useContext } from 'react';
 import { useAppSelector } from '@/hooks/useAppSelector';
 import { useAppDispatch } from '@/hooks/useAppDispatch';
@@ -11,6 +13,7 @@ import styles from './controls.module.css';
 const Controls: FC = () => {
   const dispatch = useAppDispatch();
   const { selectedPeople } = useAppSelector((state) => state.people);
+
   const { isDark } = useContext(ThemeContext) as ThemeContextType;
 
   function unselectAllHandler() {
@@ -43,6 +46,8 @@ const Controls: FC = () => {
 
     return objUrl;
   }
+
+  if (!selectedPeople.length) return <></>;
 
   return (
     <div className={classNames(controlsStyles)}>

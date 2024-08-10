@@ -1,3 +1,5 @@
+'use client';
+
 import { FC, useContext } from 'react';
 import { ThemeContextType } from '@/helpers/interfaces';
 import { ThemeContext } from '@/helpers/context';

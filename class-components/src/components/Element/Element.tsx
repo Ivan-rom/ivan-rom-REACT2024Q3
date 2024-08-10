@@ -1,49 +1,28 @@
-import { ChangeEvent, FC, useMemo } from 'react';
+import { FC } from 'react';
 import Link from 'next/link';
 import { getElementId } from '../../helpers/getElementId';
-import { useAppSelector } from '../../hooks/useAppSelector';
-import { useAppDispatch } from '../../hooks/useAppDispatch';
-import {
-  addSelectedPerson,
-  removeSelectedPerson,
-} from '../../store/peopleSlice/peopleSlice';
 import { Person } from '../../helpers/interfaces';
+import { Checkbox } from '../Checkbox/Checkbox';
 import classNames from 'classnames';
-import { useRouter } from 'next/router';
-import { BASE_PATH } from '@/helpers/constants';
 
 import styles from './element.module.css';
 
 interface Props {
   person: Person;
+  search: string;
+  page: string;
 }
 
-const Element: FC<Props> = ({ person }) => {
-  const { url, name } = person;
-  const router = useRouter();
-  const { page } = router.query;
-  const dispatch = useAppDispatch();
-  const { selectedPeople } = useAppSelector((state) => state.people);
-  const isSelected = useMemo(
-    () => Boolean(selectedPeople.find((element) => element.url === url)),
-    [selectedPeople, url],
-  );
-  const id = getElementId(url);
-
-  function changeHandler({ target }: ChangeEvent<HTMLInputElement>) {
-    if (target.checked) {
-      dispatch(addSelectedPerson(person));
-    } else {
-      dispatch(removeSelectedPerson(url));
-    }
-  }
+const Element: FC<Props> = ({ person, search, page }) => {
+  const { name } = person;
+  const id = getElementId(person.url);
 
   return (
     <li className={styles.element}>
       <div className={styles.name}>{name}</div>
-      <input type="checkbox" onChange={changeHandler} checked={isSelected} />
+      <Checkbox person={person} />
       <Link
-        href={`${BASE_PATH}/${page}/details/${id}`}
+        href={`?page=${page}&search=${search}&id=${id}`}
         className={classNames(styles.link, 'button')}
       >
         More details

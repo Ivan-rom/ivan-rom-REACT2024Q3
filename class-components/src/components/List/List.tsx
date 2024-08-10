@@ -1,31 +1,23 @@
 import { FC } from 'react';
 import Element from '../Element/Element';
 import Pagination from '../Pagination/Pagination';
-import { useAppSelector } from '@/hooks/useAppSelector';
-import { useGetPeopleQuery } from '@/store/api/api';
-import Loader from '../Loader/Loader';
-import { NOT_FOUND_PATH } from '@/helpers/constants';
-import { useRouter } from 'next/router';
+import { BASE_URL } from '@/helpers/constants';
+import { PeopleResponse } from '@/helpers/interfaces';
 
 import styles from './list.module.css';
 
-const List: FC = () => {
-  const { searchTerm } = useAppSelector((state) => state.people);
+type Props = {
+  page: string;
+  search: string;
+  id?: string;
+};
 
-  console.log(searchTerm);
+const List: FC<Props> = async ({ page, search, id }) => {
+  const response = await fetch(
+    `${BASE_URL}/people/?page=${page}&search=${search}`,
+  );
 
-  const router = useRouter();
-  const { page } = router.query;
-  const currentPage = page ? +page : 1;
-
-  const { data, isError, isFetching } = useGetPeopleQuery({
-    page: currentPage,
-    searchTerm,
-  });
-
-  if (isError) router.push(NOT_FOUND_PATH);
-
-  if (isFetching) return <Loader />;
+  const data = (await response.json()) as PeopleResponse;
 
   if (!data?.results.length) return <h2>Nothing found</h2>;
 
@@ -33,10 +25,20 @@ const List: FC = () => {
     <div className={styles.list}>
       <ul className={styles.content}>
         {data.results.map((person) => (
-          <Element person={person} key={person.url} />
+          <Element
+            person={person}
+            key={person.url}
+            page={page}
+            search={search}
+          />
         ))}
       </ul>
-      <Pagination elementsCount={data.count} />
+      <Pagination
+        elementsCount={data.count}
+        page={page}
+        id={id}
+        search={search}
+      />
     </div>
   );
 };

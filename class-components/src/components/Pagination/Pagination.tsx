@@ -1,6 +1,5 @@
 import { FC } from 'react';
 import classNames from 'classnames';
-import { useRouter } from 'next/router';
 import Link from 'next/link';
 
 import styles from './pagination.module.css';
@@ -9,22 +8,23 @@ const elementsPerPage = 10;
 
 interface Props {
   elementsCount: number;
+  page: string;
+  id?: string;
+  search: string;
 }
 
-const Pagination: FC<Props> = ({ elementsCount }) => {
-  const { query } = useRouter();
-  const { page, elementId } = query;
-  const currentPage = +page!;
+const Pagination: FC<Props> = ({ elementsCount, page, id, search }) => {
+  const currentPage = +page;
 
   const totalPages = Math.ceil(elementsCount / elementsPerPage);
 
-  const prevLink = elementId
-    ? `/search/${currentPage - 1}/details/${elementId}`
-    : `/search/${currentPage - 1}`;
+  const prevLink = id
+    ? `?page=${currentPage - 1}&search=${search}&id=${id}`
+    : `?page=${currentPage - 1}&search=${search}`;
 
-  const nextLink = elementId
-    ? `/search/${currentPage + 1}/details/${elementId}`
-    : `/search/${currentPage + 1}`;
+  const nextLink = id
+    ? `?page=${currentPage + 1}&search=${search}&id=${id}`
+    : `?page=${currentPage + 1}&search=${search}`;
 
   const prevStyles = {
     disabled: currentPage <= 1,

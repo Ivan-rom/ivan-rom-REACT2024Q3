@@ -6,7 +6,7 @@ import { Provider } from 'react-redux';
 import { makeStore } from '@/store/store';
 import ContextProvider from '@/components/ContextProvider/ContextProvider';
 import { RouterContext } from 'next/dist/shared/lib/router-context.shared-runtime';
-import { createMockRouter } from '../../../../mock/createMockRouter';
+import { createMockRouter } from '../../../mock/createMockRouter';
 
 const searchText = 'search text';
 const loaderText = 'loader text';
