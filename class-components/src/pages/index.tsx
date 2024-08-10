@@ -1,4 +1,14 @@
+import { HOME_PAGE } from '@/helpers/constants';
 import Head from 'next/head';
+
+export async function getServerSideProps() {
+  return {
+    redirect: {
+      destination: HOME_PAGE,
+      permanent: true,
+    },
+  };
+}
 
 export default function Home() {
   return (
