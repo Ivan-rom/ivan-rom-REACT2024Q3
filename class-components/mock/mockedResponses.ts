@@ -1,4 +1,4 @@
-import { Person } from '../src/helpers/interfaces';
+import { Person } from '../app/helpers/interfaces';
 
 export const mockedPerson: Person = {
   name: 'test name',

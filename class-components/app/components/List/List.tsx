@@ -11,10 +11,6 @@ type Props = {
 };
 
 const List: FC<Props> = ({ data }) => {
-  // if (isError) return <Navigate to={NOT_FOUND_PATH} />;
-
-  // if (isFetching) return <Loader />;
-
   if (!data?.results.length) return <h2>Nothing found</h2>;
 
   return (

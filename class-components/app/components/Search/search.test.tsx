@@ -2,7 +2,7 @@ import { fireEvent, render, screen } from '@testing-library/react';
 import { beforeEach, describe, expect, it } from 'vitest';
 import Search from './Search';
 import { BrowserRouter } from 'react-router-dom';
-import { LOCAL_STORAGE_SEARCH_KEY } from '../../../helpers/constants';
+import { LOCAL_STORAGE_SEARCH_KEY } from '../../helpers/constants';
 import { Provider } from 'react-redux';
 import { store } from '../../store/store';
 

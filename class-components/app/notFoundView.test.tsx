@@ -1,8 +1,8 @@
 import { fireEvent, render, screen } from '@testing-library/react';
 import { describe, expect, it } from 'vitest';
-import NotFoundView from './NotFoundView';
+import NotFoundView from './routes/$slug';
 import { BrowserRouter } from 'react-router-dom';
-import { HOME_PAGE, NOT_FOUND_PATH } from '../../../helpers/constants';
+import { HOME_PAGE, NOT_FOUND_PATH } from './helpers/constants';
 
 describe('Not Found page', () => {
   it('renders content', () => {
