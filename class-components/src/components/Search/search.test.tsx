@@ -1,20 +1,29 @@
 import { fireEvent, render, screen } from '@testing-library/react';
-import { beforeEach, describe, expect, it } from 'vitest';
+import { beforeEach, describe, expect, it, vi } from 'vitest';
 import Search from './Search';
 import { LOCAL_STORAGE_SEARCH_KEY } from '../../helpers/constants';
 import { Provider } from 'react-redux';
-import { makeStore } from '../../store/store';
-import { RouterContext } from 'next/dist/shared/lib/router-context.shared-runtime';
-import { createMockRouter } from '../../../mock/createMockRouter';
+import { store } from '../../store/store';
 
-const store = makeStore();
+const mockPush = vi.fn();
+
+vi.mock('next/navigation', () => ({
+  useRouter: vi.fn(() => ({
+    push: mockPush,
+  })),
+  useSearchParams: vi.fn(() => ({
+    get: vi.fn((param: string) => {
+      if (param === 'id') return '1';
+      if (param === 'page') return '1';
+      return '';
+    }),
+  })),
+}));
 
 const searchComponent = (
-  <RouterContext.Provider value={createMockRouter({})}>
-    <Provider store={store}>
-      <Search />
-    </Provider>
-  </RouterContext.Provider>
+  <Provider store={store}>
+    <Search />
+  </Provider>
 );
 
 describe('Search component', () => {

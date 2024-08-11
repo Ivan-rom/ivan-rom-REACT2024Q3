@@ -2,9 +2,9 @@ import Details from '@/components/Details/Details';
 import { BASE_URL } from '@/helpers/constants';
 import classNames from 'classnames';
 import { FC } from 'react';
+import CloseButton from '@/components/CloseButton/CloseButton';
 
 import styles from './ElementView.module.css';
-import CloseButton from '@/components/CloseButton/CloseButton';
 
 type Props = {
   searchParams: {

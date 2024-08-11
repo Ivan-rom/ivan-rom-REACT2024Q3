@@ -2,11 +2,9 @@ import { render, screen } from '@testing-library/react';
 import { describe, expect, it } from 'vitest';
 import Element from './Element';
 import { Provider } from 'react-redux';
-import { makeStore } from '../../store/store';
+import { store } from '../../store/store';
 import { RouterContext } from 'next/dist/shared/lib/router-context.shared-runtime';
 import { createMockRouter } from '../../../mock/createMockRouter';
-
-const store = makeStore();
 
 describe('Element component', () => {
   it('renders the relevant card data', () => {
@@ -24,12 +22,12 @@ describe('Element component', () => {
 
     const detailsButtonText = 'More details';
 
-    const router = createMockRouter({ query: { page: '1' } });
+    const router = createMockRouter({ pathname: '?page=1&search=' });
 
     render(
       <RouterContext.Provider value={router}>
         <Provider store={store}>
-          <Element person={testData} />
+          <Element person={testData} search="" page="1" />
         </Provider>
       </RouterContext.Provider>,
     );

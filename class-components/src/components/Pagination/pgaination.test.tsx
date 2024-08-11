@@ -6,16 +6,17 @@ import { createMockRouter } from '../../../mock/createMockRouter';
 
 // for 2 pages (10 elements per page)
 const elementsCount = 20;
+const search = '';
+const page = '2';
+const router = createMockRouter({
+  pathname: `?page=${page}&search=${search}`,
+});
 
 describe('Pagination component', () => {
   it('renders properly', () => {
-    const router = createMockRouter({
-      query: { page: '1', elementId: '' },
-    });
-
     render(
       <RouterContext.Provider value={router}>
-        <Pagination elementsCount={elementsCount} />
+        <Pagination elementsCount={elementsCount} search={search} page={page} />
       </RouterContext.Provider>,
     );
 
@@ -24,14 +25,9 @@ describe('Pagination component', () => {
   });
 
   it('changes the URL when buttons are clicked', async () => {
-    const router = createMockRouter({
-      query: { page: '2', elementId: '' },
-      pathname: '/search/1',
-    });
-
     render(
       <RouterContext.Provider value={router}>
-        <Pagination elementsCount={elementsCount} />
+        <Pagination elementsCount={elementsCount} search={search} page={page} />
       </RouterContext.Provider>,
     );
 
@@ -42,43 +38,9 @@ describe('Pagination component', () => {
 
     fireEvent.click(nextButton);
 
-    expect(router.push).toHaveBeenCalledWith('/search/3', '/search/3', {
-      locale: undefined,
-      scroll: true,
-      shallow: undefined,
-    });
-
-    fireEvent.click(prevButton);
-
-    expect(router.push).toHaveBeenCalledWith('/search/1', '/search/1', {
-      locale: undefined,
-      scroll: true,
-      shallow: undefined,
-    });
-  });
-
-  it('changes the search page without closing details when buttons are clicked', async () => {
-    const detailsPage = '/details/1';
-
-    const router = createMockRouter({
-      query: { page: '2', elementId: '1' },
-      pathname: '/search/1',
-    });
-
-    render(
-      <RouterContext.Provider value={router}>
-        <Pagination elementsCount={elementsCount} />
-      </RouterContext.Provider>,
-    );
-
-    const nextButton = screen.getByText('next');
-    const prevButton = screen.getByText('prev');
-
-    fireEvent.click(nextButton);
-
     expect(router.push).toHaveBeenCalledWith(
-      `/search/3${detailsPage}`,
-      `/search/3${detailsPage}`,
+      '/?page=3&search=',
+      '/?page=3&search=',
       {
         locale: undefined,
         scroll: true,
@@ -89,8 +51,54 @@ describe('Pagination component', () => {
     fireEvent.click(prevButton);
 
     expect(router.push).toHaveBeenCalledWith(
-      `/search/1${detailsPage}`,
-      `/search/1${detailsPage}`,
+      '/?page=1&search=',
+      '/?page=1&search=',
+      {
+        locale: undefined,
+        scroll: true,
+        shallow: undefined,
+      },
+    );
+  });
+
+  it('changes the search page without closing details when buttons are clicked', async () => {
+    const id = '1';
+
+    const router = createMockRouter({
+      pathname: `?page=${page}&search=${search}&id=${id}`,
+    });
+
+    render(
+      <RouterContext.Provider value={router}>
+        <Pagination
+          elementsCount={elementsCount}
+          search={search}
+          page={page}
+          id={id}
+        />
+      </RouterContext.Provider>,
+    );
+
+    const nextButton = screen.getByText('next');
+    const prevButton = screen.getByText('prev');
+
+    fireEvent.click(nextButton);
+
+    expect(router.push).toHaveBeenCalledWith(
+      `/?page=3&search=&id=${id}`,
+      `/?page=3&search=&id=${id}`,
+      {
+        locale: undefined,
+        scroll: true,
+        shallow: undefined,
+      },
+    );
+
+    fireEvent.click(prevButton);
+
+    expect(router.push).toHaveBeenCalledWith(
+      `/?page=1&search=&id=${id}`,
+      `/?page=1&search=&id=${id}`,
       {
         locale: undefined,
         scroll: true,

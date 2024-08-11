@@ -1,6 +1,6 @@
 import { fireEvent, render, screen } from '@testing-library/react';
 import { describe, expect, it } from 'vitest';
-import NotFoundView from './404';
+import NotFoundView from './not-found';
 import { HOME_PAGE, NOT_FOUND_PATH } from '@/helpers/constants';
 import { RouterContext } from 'next/dist/shared/lib/router-context.shared-runtime';
 import { createMockRouter } from '../../mock/createMockRouter';

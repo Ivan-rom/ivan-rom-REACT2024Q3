@@ -2,6 +2,7 @@ import CloseButton from '@/components/CloseButton/CloseButton';
 import List from '@/components/List/List';
 import { redirect } from 'next/navigation';
 import { FC } from 'react';
+import { HOME_PAGE } from '@/helpers/constants';
 
 import styles from './searchView.module.css';
 
@@ -16,7 +17,7 @@ type Props = {
 const Page: FC<Props> = ({ searchParams }) => {
   const { page, search, id } = searchParams;
 
-  if (!page) redirect('?page=1');
+  if (!page) redirect(HOME_PAGE);
 
   return (
     <>

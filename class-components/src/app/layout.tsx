@@ -16,7 +16,7 @@ export const metadata: Metadata = {
 };
 
 type Props = {
-  children: React.ReactNode;
+  children?: React.ReactNode;
   details: React.ReactNode;
 };
 

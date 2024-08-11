@@ -1,7 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit';
 import { Person } from '@/helpers/interfaces';
 
-type State = {
+export type State = {
   searchTerm: string;
   selectedPeople: Person[];
 };
