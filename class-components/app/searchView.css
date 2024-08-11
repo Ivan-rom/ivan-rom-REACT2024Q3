@@ -1,0 +1,24 @@
+.search-view-content {
+  display: flex;
+  gap: 20px;
+  position: relative;
+  padding: 15px 0;
+}
+
+.search-view-header {
+  position: relative;
+  z-index: 2;
+  padding: 20px 0;
+  background-color: inherit;
+}
+
+.search-view-wrapper {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.search-view-close-button {
+  position: absolute;
+  inset: 0;
+}
