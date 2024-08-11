@@ -1,19 +1,24 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 
-export default function useLocalStorage(itemName: string) {
-  const getValueFromLocalStorage = () => {
-    const savedValue = localStorage.getItem(itemName);
-    return savedValue ? savedValue : '';
-  };
+function getSavedValue(key: string, initialValue: string) {
+  if (typeof window === 'undefined') return initialValue;
 
-  const [data, setData] = useState(getValueFromLocalStorage);
+  return localStorage.getItem(key) || '';
+}
+
+export default function useLocalStorage(itemName: string, initialValue = '') {
+  const [data, setData] = useState(() => getSavedValue(itemName, initialValue));
+  const dataRef = useRef('');
 
   useEffect(() => {
-    // BUG: saving data after input, not after unmount for no reason
+    dataRef.current = data;
+  }, [data]);
+
+  useEffect(() => {
     return () => {
-      localStorage.setItem(itemName, data.trim());
+      localStorage.setItem(itemName, dataRef.current.trim());
     };
-  }, [itemName, data]);
+  }, []);
 
   return [data, setData] as const;
 }

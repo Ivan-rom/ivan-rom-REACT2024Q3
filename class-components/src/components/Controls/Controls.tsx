@@ -1,9 +1,9 @@
 import { FC, useContext } from 'react';
-import useAppSelector from '../../hooks/useAppSelector';
-import useAppDispatch from '../../hooks/useAppDispatch';
-import { clearSelectedPeople } from '../../store/peopleSlice/peopleSlice';
-import { ThemeContext } from '../../helpers/context';
-import { ThemeContextType } from '../../helpers/interfaces';
+import { useAppSelector } from '@/hooks/useAppSelector';
+import { useAppDispatch } from '@/hooks/useAppDispatch';
+import { clearSelectedPeople } from '@/store/peopleSlice/peopleSlice';
+import { ThemeContext } from '@/helpers/context';
+import { ThemeContextType } from '@/helpers/interfaces';
 import classNames from 'classnames';
 
 import styles from './controls.module.css';
@@ -22,6 +22,28 @@ const Controls: FC = () => {
     [styles.dark]: isDark,
   };
 
+  function getCSVContent() {
+    const titleKeys = Object.keys(selectedPeople[0]);
+
+    const refinedData = [];
+    refinedData.push(titleKeys);
+
+    selectedPeople.forEach((person) => {
+      refinedData.push(Object.values(person));
+    });
+
+    let csvContent = '';
+
+    refinedData.forEach((row) => {
+      csvContent += row.join(';') + '\n';
+    });
+
+    const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8,' });
+    const objUrl = URL.createObjectURL(blob);
+
+    return objUrl;
+  }
+
   return (
     <div className={classNames(controlsStyles)}>
       <div className={styles.title}>
@@ -35,7 +57,7 @@ const Controls: FC = () => {
           Unselect all
         </button>
         <a
-          href={`data:text/plain;charset=utf-8, ${JSON.stringify(selectedPeople, null, ' ')}`}
+          href={getCSVContent()}
           download={`${selectedPeople.length}_people.csv`}
           className={classNames('button', styles.button, styles.download)}
         >

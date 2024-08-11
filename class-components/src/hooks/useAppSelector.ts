@@ -1,4 +1,4 @@
-import { useSelector } from 'react-redux';
-import { RootState } from '../store/store';
+import { RootState } from '@/store/store';
+import { TypedUseSelectorHook, useSelector } from 'react-redux';
 
-export default useSelector.withTypes<RootState>();
+export const useAppSelector: TypedUseSelectorHook<RootState> = useSelector;

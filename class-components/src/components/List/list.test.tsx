@@ -1,19 +1,20 @@
 import { render, screen, waitFor } from '@testing-library/react';
 import { beforeEach, describe, expect, it } from 'vitest';
 import List from './List';
-import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import { Provider } from 'react-redux';
-import { store } from '../../store/store';
+import { makeStore } from '../../store/store';
 import { server } from '../../../mock/server';
+import { RouterContext } from 'next/dist/shared/lib/router-context.shared-runtime';
+import { createMockRouter } from '../../../mock/createMockRouter';
+
+const store = makeStore();
 
 const component = (
-  <Provider store={store}>
-    <BrowserRouter>
-      <Routes>
-        <Route path="/search/:page?" element={<List />} />
-      </Routes>
-    </BrowserRouter>
-  </Provider>
+  <RouterContext.Provider value={createMockRouter({})}>
+    <Provider store={store}>
+      <List />
+    </Provider>
+  </RouterContext.Provider>
 );
 
 describe('List component', () => {
@@ -27,26 +28,6 @@ describe('List component', () => {
     render(component);
     expect(screen.getByTestId('loader')).toBeInTheDocument();
   });
-
-  // BUG: server.use() or BeforeEach(() => server.resetHandlers()) don't work
-
-  // it('renders an appropriate message is displayed if no cards are present', async () => {
-  //   server.use(
-  //     http.get(`${BASE_URL}/people/`, () => {
-  //       return HttpResponse.json({ count: 0, results: [] });
-  //     }),
-  //   );
-  //   const messageForEmptyList = 'Nothing found';
-
-  //   const initialPath = '/search/1';
-  //   window.history.pushState({}, 'test page', initialPath);
-
-  //   render(component);
-
-  //   await waitFor(() => {
-  //     expect(screen.getByText(messageForEmptyList)).toBeInTheDocument();
-  //   });
-  // });
 
   it('renders data from server', async () => {
     render(component);

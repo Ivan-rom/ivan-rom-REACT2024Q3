@@ -1,17 +1,20 @@
 import { fireEvent, render, screen } from '@testing-library/react';
 import { beforeEach, describe, expect, it } from 'vitest';
 import Search from './Search';
-import { BrowserRouter } from 'react-router-dom';
 import { LOCAL_STORAGE_SEARCH_KEY } from '../../helpers/constants';
 import { Provider } from 'react-redux';
-import { store } from '../../store/store';
+import { makeStore } from '../../store/store';
+import { RouterContext } from 'next/dist/shared/lib/router-context.shared-runtime';
+import { createMockRouter } from '../../../mock/createMockRouter';
+
+const store = makeStore();
 
 const searchComponent = (
-  <Provider store={store}>
-    <BrowserRouter>
+  <RouterContext.Provider value={createMockRouter({})}>
+    <Provider store={store}>
       <Search />
-    </BrowserRouter>
-  </Provider>
+    </Provider>
+  </RouterContext.Provider>
 );
 
 describe('Search component', () => {
