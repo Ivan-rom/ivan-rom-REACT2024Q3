@@ -1,6 +1,6 @@
 import { http, HttpResponse } from 'msw';
 import { mockedPerson } from './mockedResponses';
-import { BASE_URL } from '../src/helpers/constants';
+import { BASE_URL } from '../app/helpers/constants';
 
 export const handlers = [
   http.get(`${BASE_URL}/people/:id`, () => {
