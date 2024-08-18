@@ -1,0 +1,34 @@
+.section {
+  height: calc(100vh - var(--header-height));
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.button {
+  padding: 5px 10px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  background-color: lightblue;
+
+  &:hover {
+    background-color: rgb(199, 224, 233);
+  }
+
+  &:disabled {
+    background-color: rgb(127, 161, 172);
+    cursor: default;
+  }
+}
+
+.form {
+  width: 370px;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 0 3px black;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 5px;
+}
