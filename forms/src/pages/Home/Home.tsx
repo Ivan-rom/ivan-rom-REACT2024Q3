@@ -1,4 +1,4 @@
-import FormSection from '../../components/Form/FormSection';
+import FormSection from '../../components/FormSection/FormSection';
 import styles from './home.module.css';
 
 function Home() {

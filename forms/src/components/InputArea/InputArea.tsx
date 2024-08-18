@@ -1,15 +1,22 @@
 import { ChangeEvent, useState } from 'react';
-import { InputAreaType, InputTypes, RadioAreaType } from '../../utils/types';
+import {
+  InputAreaType,
+  Inputs,
+  InputTypes,
+  RadioAreaType,
+} from '../../utils/types';
 import styles from './inputArea.module.css';
 import sharedStyles from '../../shared.module.css';
+import { FieldError, UseFormRegisterReturn } from 'react-hook-form';
 
 type Props = {
   data: InputAreaType | RadioAreaType;
-  error?: string;
+  error?: string | FieldError;
   name: string;
+  register?: UseFormRegisterReturn<Inputs>;
 };
 
-function InputArea({ data, error, name }: Props) {
+function InputArea({ data, error, name, register }: Props) {
   const { label, type } = data;
   const [value, setValue] = useState('');
 
@@ -25,6 +32,7 @@ function InputArea({ data, error, name }: Props) {
         return data.values!.map((value) => (
           <div key={value}>
             <input
+              {...register}
               type={type}
               name={name}
               id={`${name}-${value}`}
@@ -38,9 +46,12 @@ function InputArea({ data, error, name }: Props) {
         return (
           <input
             value={value}
-            onChange={changeHandler}
+            {...register}
+            onChange={(e) => {
+              changeHandler(e);
+              register?.onChange(e);
+            }}
             type={type}
-            name={name}
             id={name}
           />
         );
@@ -48,7 +59,12 @@ function InputArea({ data, error, name }: Props) {
       case InputTypes.file:
         return (
           <div className={styles.fileInput}>
-            <input type={type} name={name} id={name} className={styles.input} />
+            <input
+              {...register}
+              type={type}
+              id={name}
+              className={styles.input}
+            />
             <span>{value}</span>
             <label htmlFor={name} className={sharedStyles.button}>
               Choose file
@@ -57,18 +73,27 @@ function InputArea({ data, error, name }: Props) {
         );
 
       default:
-        return <input type={type} name={name} id={name} />;
+        return <input {...register} type={type} id={name} />;
     }
   };
 
+  const getError = () => {
+    if (typeof error === 'string') {
+      return error;
+    }
+    return error?.message;
+  };
+
   return (
-    <div className={styles.inputArea}>
-      <div className={styles.error}>{error}</div>
-      <label htmlFor={name} className={styles.label}>
-        {label}:{' '}
-      </label>
-      {getInput()}
-    </div>
+    <>
+      <div className={styles.inputArea}>
+        <div className={styles.error}>{getError()}</div>
+        <label htmlFor={name} className={styles.label}>
+          {label}:{' '}
+        </label>
+        {getInput()}
+      </div>
+    </>
   );
 }
 
