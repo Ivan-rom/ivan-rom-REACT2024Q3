@@ -4,11 +4,13 @@ import { FilledForm } from '../../utils/types';
 type FormState = {
   filledForms: FilledForm[];
   lastAddedId: string;
+  countries: string[];
 };
 
 const initialState: FormState = {
   filledForms: [],
   lastAddedId: '',
+  countries: [],
 };
 
 const formSlice = createSlice({
@@ -17,6 +19,8 @@ const formSlice = createSlice({
   reducers: {
     updateFromState: (state, action) => {
       state.filledForms.unshift(action.payload);
+      state.countries.push(action.payload.country);
+      state.countries.sort();
     },
     setLastAddedId: (state, action) => {
       state.lastAddedId = action.payload;

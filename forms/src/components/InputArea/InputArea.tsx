@@ -1,4 +1,4 @@
-import { ChangeEvent, useState } from 'react';
+import { ChangeEvent, FocusEvent, useState } from 'react';
 import {
   InputAreaType,
   Inputs,
@@ -8,6 +8,7 @@ import {
 import styles from './inputArea.module.css';
 import sharedStyles from '../../shared.module.css';
 import { FieldError, UseFormRegisterReturn } from 'react-hook-form';
+import { useAppSelector } from '../../hooks/useAppSelector';
 
 type Props = {
   data: InputAreaType | RadioAreaType;
@@ -18,12 +19,37 @@ type Props = {
 
 function InputArea({ data, error, name, register }: Props) {
   const { label, type } = data;
-  const [value, setValue] = useState('');
+  const [inputValue, setInputValue] = useState('');
+  const { countries } = useAppSelector((state) => state.form);
+  const [filteredCountries, setFilteredCountries] = useState<string[]>([]);
 
-  const changeHandler = ({
-    target: { value },
-  }: ChangeEvent<HTMLInputElement>) => {
-    setValue(value.trim());
+  const changePasswordHandler = (e: ChangeEvent<HTMLInputElement>) => {
+    setInputValue(e.target.value.trim());
+    register?.onChange(e);
+  };
+
+  const changeHandler = (e: ChangeEvent<HTMLInputElement>) => {
+    const {
+      target: { value },
+    } = e;
+    setFilteredCountries([
+      ...countries.filter(
+        (country) =>
+          value !== '' && country.toLowerCase().startsWith(value.toLowerCase()),
+      ),
+    ]);
+    setInputValue(value);
+    register?.onChange(e);
+  };
+
+  const clickHandler = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+    setInputValue(e.currentTarget.textContent!);
+    setFilteredCountries([]);
+  };
+
+  const blurHandler = (e: FocusEvent<HTMLInputElement, Element>) => {
+    setFilteredCountries([]);
+    register?.onBlur(e);
   };
 
   const getInput = () => {
@@ -45,14 +71,12 @@ function InputArea({ data, error, name, register }: Props) {
       case InputTypes.password:
         return (
           <input
-            value={value}
+            value={inputValue}
             {...register}
-            onChange={(e) => {
-              changeHandler(e);
-              register?.onChange(e);
-            }}
+            onChange={changePasswordHandler}
             type={type}
             id={name}
+            className={styles.input}
           />
         );
 
@@ -65,7 +89,7 @@ function InputArea({ data, error, name, register }: Props) {
               id={name}
               className={styles.input}
             />
-            <span>{value}</span>
+            <span>{inputValue}</span>
             <label htmlFor={name} className={sharedStyles.button}>
               Choose file
             </label>
@@ -73,7 +97,17 @@ function InputArea({ data, error, name, register }: Props) {
         );
 
       default:
-        return <input {...register} type={type} id={name} />;
+        return (
+          <input
+            {...register}
+            onChange={changeHandler}
+            onBlur={blurHandler}
+            value={inputValue}
+            type={type}
+            id={name}
+            className={styles.input}
+          />
+        );
     }
   };
 
@@ -92,6 +126,20 @@ function InputArea({ data, error, name, register }: Props) {
           {label}:{' '}
         </label>
         {getInput()}
+        {name === Inputs.country && Boolean(filteredCountries.length) && (
+          <div className={styles.autocomplete}>
+            {filteredCountries.map((country) => (
+              <button
+                key={country}
+                onMouseDown={clickHandler}
+                className={styles.autocompleteButton}
+                type="button"
+              >
+                {country}
+              </button>
+            ))}
+          </div>
+        )}
       </div>
     </>
   );

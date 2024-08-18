@@ -1,9 +1,16 @@
 .inputArea {
+  --input-width: 170px;
   display: flex;
   justify-content: space-between;
   flex-wrap: wrap;
   width: 100%;
   margin-top: 2px;
+  position: relative;
+
+  .input:not([type='checkbox']) {
+    width: calc(var(--input-width) - 4px);
+    display: block;
+  }
 
   .error {
     font-size: 10px;
@@ -20,6 +27,31 @@
   .fileInput {
     .input {
       display: none;
+    }
+  }
+
+  .autocomplete {
+    z-index: 2;
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    transform: translateY(100%);
+    background-color: #fff;
+    width: var(--input-width);
+    max-height: 200px;
+    overflow-y: auto;
+
+    .autocompleteButton {
+      width: 100%;
+      cursor: pointer;
+      text-align: left;
+      padding: 2px 3px;
+      background-color: transparent;
+      border: none;
+
+      &:hover {
+        background-color: lightblue;
+      }
     }
   }
 }
