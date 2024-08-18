@@ -8,7 +8,7 @@ function Home() {
   return (
     <main className={styles.home}>
       {filledForms.length ? (
-        filledForms.map((form) => <FormSection form={form} />)
+        filledForms.map((form) => <FormSection form={form} key={form.id} />)
       ) : (
         <h1>You haven't submit the form yet</h1>
       )}

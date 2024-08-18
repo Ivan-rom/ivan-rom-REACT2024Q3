@@ -1,13 +1,33 @@
+import { useEffect, useState } from 'react';
 import { FilledForm } from '../../utils/types';
 import styles from './formSection.module.css';
+import useAppDispatch from '../../hooks/useAppDispatch';
+import { setLastAddedId } from '../../store/formSlice/formSlice';
+import { useAppSelector } from '../../hooks/useAppSelector';
 
 type Props = {
   form: FilledForm;
 };
 
 function FormSection({ form }: Props) {
+  const dispatch = useAppDispatch();
+  const { lastAddedId } = useAppSelector((state) => state.form);
+  const [isFresh, setIsFresh] = useState(false);
+
+  useEffect(() => {
+    if (lastAddedId === form.id) {
+      setIsFresh(true);
+      const timeout = setTimeout(() => {
+        setIsFresh(false);
+        dispatch(setLastAddedId(''));
+      }, 5000);
+
+      return () => clearTimeout(timeout);
+    }
+  }, [dispatch, lastAddedId, form.id]);
+
   return (
-    <section className={styles.formSection}>
+    <section className={`${styles.formSection} ${isFresh ? styles.fresh : ''}`}>
       <div>
         Name: <span>{form.name}</span>
       </div>

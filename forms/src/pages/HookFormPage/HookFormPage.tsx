@@ -3,7 +3,10 @@ import sharedStyles from '../../shared.module.css';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { toBase64 } from '../../utils/getBase64';
 import useAppDispatch from '../../hooks/useAppDispatch';
-import { updateFromState } from '../../store/formSlice/formSlice';
+import {
+  setLastAddedId,
+  updateFromState,
+} from '../../store/formSlice/formSlice';
 import { Inputs } from '../../utils/types';
 import { inputAreas } from '../../utils/inputAreas';
 import { schema } from '../../utils/schema';
@@ -34,7 +37,15 @@ function HookFormPage() {
 
   const submitHandler = async (data: FormData) => {
     const pictureBase64 = await toBase64(data.picture[0]);
-    dispatch(updateFromState({ ...data, picture: pictureBase64 }));
+    const id = Date.now().toString();
+    dispatch(
+      updateFromState({
+        ...data,
+        picture: pictureBase64,
+        id,
+      }),
+    );
+    dispatch(setLastAddedId(id));
     navigate('/');
   };
 

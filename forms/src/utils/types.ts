@@ -41,6 +41,7 @@ export enum Gender {
 }
 
 export type FilledForm = {
+  id: string;
   name: string;
   age: string;
   email: string;

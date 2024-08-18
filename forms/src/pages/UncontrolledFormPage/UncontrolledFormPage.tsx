@@ -4,7 +4,10 @@ import InputArea from '../../components/InputArea/InputArea';
 import { Errors, Inputs } from '../../utils/types';
 import { validate } from '../../utils/validate';
 import useAppDispatch from '../../hooks/useAppDispatch';
-import { updateFromState } from '../../store/formSlice/formSlice';
+import {
+  setLastAddedId,
+  updateFromState,
+} from '../../store/formSlice/formSlice';
 import { getFormDataObject } from '../../utils/getFormDataObject';
 import { inputAreas } from '../../utils/inputAreas';
 import { useNavigate } from 'react-router-dom';
@@ -37,7 +40,9 @@ function UncontrolledFormPage() {
 
     setErrors({});
     const formDataObject = await getFormDataObject(form.elements, inputs);
-    dispatch(updateFromState(formDataObject));
+    const id = Date.now().toString();
+    dispatch(updateFromState({ ...formDataObject, id }));
+    dispatch(setLastAddedId(id));
     navigate('/');
   };
 

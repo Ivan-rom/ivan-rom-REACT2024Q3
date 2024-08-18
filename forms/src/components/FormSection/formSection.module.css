@@ -3,10 +3,29 @@
   border-radius: 10px;
   box-shadow: 0 0 5px black;
   width: 300px;
+  transition: 0.2s;
+
+  &.fresh {
+    animation: highlight 0.7s ease-in-out infinite;
+  }
 
   & > div {
     display: flex;
     align-items: start;
     justify-content: space-between;
+  }
+}
+
+@keyframes highlight {
+  from {
+    box-shadow: 0 0 5px green;
+  }
+
+  50% {
+    box-shadow: 0 0 5px transparent;
+  }
+
+  to {
+    box-shadow: 0 0 5px green;
   }
 }
