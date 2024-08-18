@@ -1,44 +1,35 @@
-import { useEffect } from 'react';
-import { useAppSelector } from '../../hooks/useAppSelector';
+import { FilledForm } from '../../utils/types';
 import styles from './formSection.module.css';
 
-function FormSection() {
-  const { data } = useAppSelector((state) => state.form);
-  useEffect(() => {
-    console.log(data);
-  }, [data]);
+type Props = {
+  form: FilledForm;
+};
 
-  if (!data.name)
-    return (
-      <section>
-        <h1>You haven't submit the form yet</h1>
-      </section>
-    );
-
+function FormSection({ form }: Props) {
   return (
     <section className={styles.formSection}>
       <div>
-        Name: <span>{data.name}</span>
+        Name: <span>{form.name}</span>
       </div>
       <div>
-        Age: <span>{data.age}</span>
+        Age: <span>{form.age}</span>
       </div>
       <div>
-        Email: <span>{data.email}</span>
+        Email: <span>{form.email}</span>
       </div>
       <div>
-        Password: <span>{data.password}</span>
+        Password: <span>{form.password}</span>
       </div>
       <div>
-        Gender: <span>{data.gender}</span>
+        Gender: <span>{form.gender}</span>
       </div>
       <div>
-        Country: <span>{data.country}</span>
+        Country: <span>{form.country}</span>
       </div>
       <div>
         Picture:{' '}
         <span>
-          <img src={data.picture} width={200} />
+          <img src={form.picture} width={200} />
         </span>
       </div>
     </section>

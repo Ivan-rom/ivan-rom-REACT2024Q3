@@ -33,7 +33,7 @@ export const validate = (
           newErrors.age = 'Must be positive';
           break;
         }
-        if (Number.isInteger(+input.value)) {
+        if (!Number.isInteger(+input.value)) {
           newErrors.age = 'Must be an integer';
         }
         break;

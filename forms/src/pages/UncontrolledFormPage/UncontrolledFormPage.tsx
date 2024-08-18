@@ -4,14 +4,16 @@ import InputArea from '../../components/InputArea/InputArea';
 import { Errors, Inputs } from '../../utils/types';
 import { validate } from '../../utils/validate';
 import useAppDispatch from '../../hooks/useAppDispatch';
-import { updateFromState } from '../../redux/formSlice/formSlice';
+import { updateFromState } from '../../store/formSlice/formSlice';
 import { getFormDataObject } from '../../utils/getFormDataObject';
 import { inputAreas } from '../../utils/inputAreas';
+import { useNavigate } from 'react-router-dom';
 
 function UncontrolledFormPage() {
   const dispatch = useAppDispatch();
   const [errors, setErrors] = useState<Partial<Errors>>({});
   const [buttonText, setButtonText] = useState('submit');
+  const navigate = useNavigate();
   const inputs: Inputs[] = Object.keys(inputAreas) as Inputs[];
 
   const changeButtonText = (text: string) => {
@@ -36,7 +38,7 @@ function UncontrolledFormPage() {
     setErrors({});
     const formDataObject = await getFormDataObject(form.elements, inputs);
     dispatch(updateFromState(formDataObject));
-    changeButtonText('success');
+    navigate('/');
   };
 
   return (

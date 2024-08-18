@@ -34,3 +34,18 @@ export enum Inputs {
 export type Errors = {
   [key in Inputs]: string;
 };
+
+export enum Gender {
+  male = 'male',
+  female = 'female',
+}
+
+export type FilledForm = {
+  name: string;
+  age: string;
+  email: string;
+  gender: Gender;
+  password: string;
+  picture: string;
+  country: string;
+};

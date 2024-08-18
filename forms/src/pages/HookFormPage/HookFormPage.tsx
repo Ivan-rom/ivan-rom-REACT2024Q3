@@ -3,11 +3,12 @@ import sharedStyles from '../../shared.module.css';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { toBase64 } from '../../utils/getBase64';
 import useAppDispatch from '../../hooks/useAppDispatch';
-import { updateFromState } from '../../redux/formSlice/formSlice';
+import { updateFromState } from '../../store/formSlice/formSlice';
 import { Inputs } from '../../utils/types';
 import { inputAreas } from '../../utils/inputAreas';
 import { schema } from '../../utils/schema';
 import InputArea from '../../components/InputArea/InputArea';
+import { useNavigate } from 'react-router-dom';
 
 type FormData = {
   name: string;
@@ -29,10 +30,12 @@ function HookFormPage() {
     handleSubmit,
     formState: { errors },
   } = useForm<FormData>({ resolver: yupResolver(schema) });
+  const navigate = useNavigate();
 
   const submitHandler = async (data: FormData) => {
     const pictureBase64 = await toBase64(data.picture[0]);
     dispatch(updateFromState({ ...data, picture: pictureBase64 }));
+    navigate('/');
   };
 
   return (
