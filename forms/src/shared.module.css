@@ -1,0 +1,23 @@
+.section {
+  height: calc(100vh - var(--header-height));
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.button {
+  padding: 5px 10px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  background-color: lightblue;
+
+  &:hover {
+    background-color: rgb(199, 224, 233);
+  }
+
+  &:disabled {
+    background-color: rgb(127, 161, 172);
+    cursor: default;
+  }
+}

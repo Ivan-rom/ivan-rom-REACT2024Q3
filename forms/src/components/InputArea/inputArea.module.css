@@ -1,0 +1,23 @@
+.inputArea {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  width: 100%;
+
+  .error {
+    font-size: 10px;
+    width: 100%;
+    height: 1lh;
+    color: red;
+  }
+
+  .label {
+    flex-grow: 1;
+  }
+
+  .fileInput {
+    .input {
+      display: none;
+    }
+  }
+}
